@@ -4,7 +4,10 @@ module Taken
     attr_reader :file
 
     def initialize(file_path:)
-      @file = File.open(file_path.gsub(/spec/, 'taken_spec'), 'w')
+      fp = file_path.gsub!(/_spec.rb/, '_taken_spec.rb')
+      raise "Invalid file path is given. file_path: #{file_path}" if fp.nil?
+
+      @file = File.open(fp, 'w')
     end
 
     def write(content)
