@@ -10,7 +10,7 @@ module Taken
       @file_idx = 0
     end
 
-    def load_next
+    def load_next_file
       if next_file_name.nil?
         @file = nil
         return false
@@ -20,6 +20,13 @@ module Taken
       @file_idx += 1
 
       true
+    end
+
+    def readchar
+      @file.readchar
+    rescue EOFError, IOError => e
+      @file.close
+      raise e
     end
 
     def next_file_name

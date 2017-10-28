@@ -13,7 +13,7 @@ RSpec.describe Taken::Loader do
 
       context 'when directory is given' do
         let(:path) { '../spec_samples/plain_specs' }
-        it { expect(subject.length).to eq 2 }
+        it { expect(subject.length).to eq 3 }
         it { is_expected.to include(File.expand_path(path + '/plain_first_spec.rb', __FILE__)) }
         it { is_expected.to include(File.expand_path(path + '/plain_second_spec.rb', __FILE__)) }
         it { is_expected.not_to include(File.expand_path(path + '/plain_ruby.rb', __FILE__)) }
@@ -61,13 +61,13 @@ RSpec.describe Taken::Loader do
     end
   end
 
-  describe '#load_next' do
+  describe '#load_next_file' do
     let(:loader) { Taken::Loader.new(path) }
     let(:path) { File.expand_path('../spec_samples/plain_specs/plain_first_spec.rb', __FILE__) }
 
     context 'within range' do
       subject do
-        loader.load_next
+        loader.load_next_file
       end
 
       it 'returns true' do
@@ -77,13 +77,29 @@ RSpec.describe Taken::Loader do
 
     context 'out of range' do
       subject do
-        loader.load_next
-        loader.load_next
+        loader.load_next_file
+        loader.load_next_file
       end
 
       it 'returns false' do
         is_expected.to be_falsy
       end
+    end
+  end
+
+  describe '#readchar' do
+    let(:loader) { Taken::Loader.new(path) }
+    let(:path) { File.expand_path('../spec_samples/plain_specs/plain_third_spec.rb', __FILE__) }
+
+    it 'reads char' do
+      loader.load_next_file
+      expect(loader.readchar).to eq 'a'
+      expect(loader.readchar).to eq 'b'
+      expect(loader.readchar).to eq 'c'
+      expect(loader.readchar).to eq 'd'
+      expect(loader.readchar).to eq 'e'
+      expect{ loader.readchar }.to raise_error EOFError
+      expect(loader.file.closed?).to be_truthy
     end
   end
 end
