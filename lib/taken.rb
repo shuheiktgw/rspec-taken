@@ -1,4 +1,4 @@
-require "rspec/taken/version"
+require "taken/version"
 
 module Rspec
   module Taken

@@ -1,8 +1,50 @@
 require 'spec_helper'
+require 'taken/loader'
 
-describe Taken::Loader do
+RSpec.describe Taken::Loader do
+  describe 'initialize' do
+    subject { Taken::Loader.new(File.expand_path(path, __FILE__)) }
+
+    context 'when file/directory does not exist' do
+      context 'when directory specifies' do
+        context 'when directory does not exit' do
+          let(:path) { '/path/does/not/exits' }
+
+          it 'should raise Errno::ENOENT' do
+            expect { subject }.to raise_error Errno::ENOENT
+          end
+        end
+
+        context 'when directory does not contain _spec.rb file' do
+          let(:path) { '../spec_samples/only_plain_ruby' }
+
+          it 'should raise RuntimeError' do
+            expect { subject }.to raise_error RuntimeError, 'The given path does not contain _spec.rb file.'
+          end
+        end
+      end
+
+      context 'when file specifies' do
+        context 'when file does not exit' do
+          let(:path) { '../spec_samples/not_exited_spec.rb' }
+
+          it 'should raise Errno::ENOENT' do
+            expect { subject }.to raise_error Errno::ENOENT
+          end
+        end
+
+        context 'when file is not _spec.rb file' do
+          let(:path) { '../spec_samples/only_plain_ruby/plain_ruby.rb' }
+
+          it 'should raise RuntimeError' do
+            expect { subject }.to raise_error RuntimeError, 'The file does not end with _spec.rb.'
+          end
+        end
+      end
+    end
+  end
+
   describe '#load_next' do
-    subject { Loader.new(File.expand_path(path, __FILE__)) }
     # context 'when file/directory exists' do
     #   let(:loader) {Loader.new(path)}
     #
@@ -74,31 +116,5 @@ describe Taken::Loader do
     #     end
     #   end
     # end
-
-    context 'when file/directory does not exist' do
-      context 'when directory specifies' do
-        context 'when directory does not exit' do
-          let(:path) { '/path/does/not/exits' }
-
-          it 'should raise error' do
-            expect { subject }.not_to raise_error
-          end
-        end
-
-        context 'when directory does not contain _spec.rb file' do
-
-        end
-      end
-
-      context 'when file specifies' do
-        context 'when file does not exit' do
-
-        end
-
-        context 'when file is not _spec.rb file' do
-
-        end
-      end
-    end
   end
 end

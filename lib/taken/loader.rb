@@ -36,14 +36,15 @@ module Taken
       file_type = File::ftype(path)
 
       names = if file_type == FILE
+        raise 'The file does not end with _spec.rb.' unless path.end_with?('_spec.rb')
         [path]
       elsif file_type == DIRECTORY
         Dir.glob('**' + path + '/*_spec.rb')
       else
-        raise "Invalid path is given. path: #{path}"
+        raise 'Invalid path is given.'
       end
 
-      raise "The given path #{path} does not contain .rb files." if names.empty?
+      raise 'The given path does not contain _spec.rb file.' if names.empty?
       names
     end
   end
