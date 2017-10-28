@@ -3,7 +3,7 @@ module Taken
     FILE = 'file'
     DIRECTORY = 'directory'
 
-    attr_reader :file_names, :file_idx, :content
+    attr_reader :file_names, :file_idx, :file
 
     def initialize(file_path)
       @file_names = get_files(file_path)
@@ -12,11 +12,11 @@ module Taken
 
     def load_next
       if next_file_name.nil?
-        @content = nil
+        @file = nil
         return false
       end
 
-      @content = File.read(next_file_name)
+      @file = File.open(next_file_name)
       @file_idx += 1
 
       true
@@ -39,7 +39,7 @@ module Taken
         raise 'The file does not end with _spec.rb.' unless path.end_with?('_spec.rb')
         [path]
       elsif file_type == DIRECTORY
-        Dir.glob('**' + path + '/*_spec.rb')
+        Dir.glob(path + '**/*_spec.rb')
       else
         raise 'Invalid path is given.'
       end

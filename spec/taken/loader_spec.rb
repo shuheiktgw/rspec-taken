@@ -3,9 +3,26 @@ require 'taken/loader'
 
 RSpec.describe Taken::Loader do
   describe 'initialize' do
-    subject { Taken::Loader.new(File.expand_path(path, __FILE__)) }
+    context 'when file/directory exists' do
+      subject { Taken::Loader.new(File.expand_path(path, __FILE__)).file_names }
 
-    context 'when file/directory does not exist' do
+      context 'when file is given' do
+        let(:path) { '../spec_samples/plain_specs/plain_first_spec.rb' }
+        it { is_expected.to eq [ File.expand_path(path, __FILE__) ] }
+      end
+
+      context 'when directory is given' do
+        let(:path) { '../spec_samples/plain_specs' }
+        it { expect(subject.length).to eq 2 }
+        it { is_expected.to include(File.expand_path(path + '/plain_first_spec.rb', __FILE__)) }
+        it { is_expected.to include(File.expand_path(path + '/plain_second_spec.rb', __FILE__)) }
+        it { is_expected.not_to include(File.expand_path(path + '/plain_ruby.rb', __FILE__)) }
+      end
+    end
+
+    context 'when spec file/directory does not exist' do
+      subject { Taken::Loader.new(File.expand_path(path, __FILE__)) }
+
       context 'when directory specifies' do
         context 'when directory does not exit' do
           let(:path) { '/path/does/not/exits' }
@@ -45,76 +62,28 @@ RSpec.describe Taken::Loader do
   end
 
   describe '#load_next' do
-    # context 'when file/directory exists' do
-    #   let(:loader) {Loader.new(path)}
-    #
-    #   context 'when path is file' do
-    #     let(:path) {File.expand_path('../jack_codes/test.jack', __FILE__)}
-    #
-    #     context 'call load_next once' do
-    #       subject do
-    #         loader.load_next
-    #         loader.content
-    #       end
-    #
-    #       it 'should return file content' do
-    #         is_expected.to eq "test\ntest\ntest"
-    #       end
-    #     end
-    #
-    #     context 'call load_next twice' do
-    #       subject do
-    #         loader.load_next
-    #         loader.load_next
-    #         loader.content
-    #       end
-    #
-    #       it 'should return nil' do
-    #         is_expected.to be_nil
-    #       end
-    #     end
-    #   end
-    #
-    #   context 'when path is directory' do
-    #     let(:path) {File.expand_path('../jack_codes/test', __FILE__)}
-    #
-    #     context 'call load_next once' do
-    #       subject do
-    #         loader.load_next
-    #         loader.content
-    #       end
-    #
-    #
-    #       it 'should return first file content' do
-    #         is_expected.to eq "test1\ntest1\ntest1"
-    #       end
-    #     end
-    #
-    #     context 'call load_next twice' do
-    #       subject do
-    #         loader.load_next
-    #         loader.load_next
-    #         loader.content
-    #       end
-    #
-    #       it 'should return second file content' do
-    #         is_expected.to eq "test2\ntest2\ntest2"
-    #       end
-    #     end
-    #
-    #     context 'call load_next three times' do
-    #       subject do
-    #         loader.load_next
-    #         loader.load_next
-    #         loader.load_next
-    #         loader.content
-    #       end
-    #
-    #       it 'should return nil' do
-    #         is_expected.to be_nil
-    #       end
-    #     end
-    #   end
-    # end
+    let(:loader) { Taken::Loader.new(path) }
+    let(:path) { File.expand_path('../spec_samples/plain_specs/plain_first_spec.rb', __FILE__) }
+
+    context 'within range' do
+      subject do
+        loader.load_next
+      end
+
+      it 'returns true' do
+        is_expected.to be_truthy
+      end
+    end
+
+    context 'out of range' do
+      subject do
+        loader.load_next
+        loader.load_next
+      end
+
+      it 'returns false' do
+        is_expected.to be_falsy
+      end
+    end
   end
 end
