@@ -1,17 +1,17 @@
 # coding: utf-8
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "rspec/taken/version"
+require "taken/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "rspec-taken"
   spec.version       = Rspec::Taken::VERSION
   spec.authors       = ["Shuhei Kitagawa"]
-  spec.email         = ["shuhei.kitagawa@c-fo.com"]
+  spec.email         = ["s.ktgw@gemgem.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{ Write a short summary, because Rubygems requires one.}
+  spec.description   = %q{ Write a longer description or delete this line.}
+  spec.homepage      = "Put your gem's website or public repo URL here."
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
