@@ -1,16 +1,16 @@
 require 'spec_helper'
 require 'stringio'
-require 'taken/lexer'
+require 'taken/reader'
 require 'taken/token'
 
-RSpec.describe Taken::Lexer do
+RSpec.describe Taken::Reader do
   let(:file) { StringIO.new(content, 'r+') }
 
   describe '#readcher' do
     let(:content) { '12' }
 
     it 'reads char' do
-      lexer = Taken::Lexer.new(file)
+      lexer = Taken::Reader.new(file)
       expect(lexer.current_char).to eq '1'
       expect(lexer.next_char).to eq '2'
 
