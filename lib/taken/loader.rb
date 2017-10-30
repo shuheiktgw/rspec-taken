@@ -22,13 +22,6 @@ module Taken
       true
     end
 
-    def readchar
-      @file.readchar
-    rescue EOFError, IOError => e
-      @file.close
-      raise e
-    end
-
     def next_file_name
       file_names[file_idx]
     end

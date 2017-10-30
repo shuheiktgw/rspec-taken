@@ -86,20 +86,4 @@ RSpec.describe Taken::Loader do
       end
     end
   end
-
-  describe '#readchar' do
-    let(:loader) { Taken::Loader.new(path) }
-    let(:path) { File.expand_path('../spec_samples/plain_specs/plain_third_spec.rb', __FILE__) }
-
-    it 'reads char' do
-      loader.load_next_file
-      expect(loader.readchar).to eq 'a'
-      expect(loader.readchar).to eq 'b'
-      expect(loader.readchar).to eq 'c'
-      expect(loader.readchar).to eq 'd'
-      expect(loader.readchar).to eq 'e'
-      expect{ loader.readchar }.to raise_error EOFError
-      expect(loader.file.closed?).to be_truthy
-    end
-  end
 end
