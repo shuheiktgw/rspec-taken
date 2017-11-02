@@ -1,8 +1,11 @@
 module Taken
   class Token
     attr_reader :type, :literal, :white_spaces
+
     EOF = 'EOF'
     UNKNOWN  = 'UNKNOWN'
+    IDENT = 'IDENT'
+    NUMBER = 'NUMBER'
 
     # Operators
     EQ = '=='
@@ -32,7 +35,7 @@ module Taken
     }
 
     def self.lookup_ident(literal)
-      KEYWORDS[literal.to_sym] || UNKNOWN
+      KEYWORDS[literal.to_sym] || IDENT
     end
 
     def initialize(type:, literal:)

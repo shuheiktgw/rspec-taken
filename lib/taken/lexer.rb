@@ -21,23 +21,36 @@ module Taken
           # == or === ?
           if next_char == '='
             reader.readchar
-            Taken::Token.new(type: Taken::Token::UNKNOWN, literal: '===')
+            Token.new(type: Token::UNKNOWN, literal: '===')
           else
-            Taken::Token.new(type: Taken::Token::EQ, literal: '==')
+            Token.new(type: Taken::Token::EQ, literal: '==')
           end
         else
-          Taken::Token.new(type: Taken::Token::UNKNOWN, literal: '=')
+          Token.new(type: Token::UNKNOWN, literal: '=')
         end
       when '('
-        Taken::Token.new(type: Taken::Token::LPAREN, literal: '(')
+        Token.new(type: Token::LPAREN, literal: '(')
       when ')'
-        Taken::Token.new(type: Taken::Token::RPAREN, literal: ')')
+        Token.new(type: Token::RPAREN, literal: ')')
       when '{'
-        Taken::Token.new(type: Taken::Token::LBRACE, literal: '{')
+        Token.new(type: Token::LBRACE, literal: '{')
       when '}'
-        Taken::Token.new(type: Taken::Token::RBRACE, literal: '}')
+        Token.new(type: Token::RBRACE, literal: '}')
       when ':'
-        Taken::Token.new(type: Taken::Token::COLON, literal: ':')
+        Token.new(type: Token::COLON, literal: ':')
+      when 'EOF'
+        Token.new(type: Token::EOF, literal: 'EOF')
+      else
+        if letter? current_char
+          literal = read_identifier
+          type = Token.lookup_ident(literal)
+
+          Token.new(type: type, literal: literal)
+        elsif digit? current_char
+          Token.new(type: Token::NUMBER, literal: read_number)
+        else
+          Token.new(type: Token::UNKNOWN, literal: current_char)
+        end
       end
 
       reader.readchar
@@ -50,7 +63,7 @@ module Taken
     def read_identifier
       str = current_char
 
-      while (letter? next_char) || (digit? next_char)
+      while (letter? next_char) || (digit? next_char) || (allowed_chars? next_char)
         reader.readchar
         str << current_char
       end
@@ -75,6 +88,10 @@ module Taken
 
     def digit?(ch)
       ch =~ /^[0-9]$/
+    end
+
+    def allowed_chars?(ch)
+      ch =~ /^[-!]$/
     end
 
     def current_char
