@@ -1,3 +1,4 @@
+require 'pry'
 require 'taken/token'
 
 module Taken
@@ -10,6 +11,7 @@ module Taken
     end
 
     def next_token
+      binding.pry
       eaten = eat_white_spaces
 
       token = case current_char
@@ -52,8 +54,8 @@ module Taken
 
       eaten =''
       while white_spaces.include? current_char
-        reader.readchar
         eaten << current_char
+        reader.readchar
       end
       eaten
     end
