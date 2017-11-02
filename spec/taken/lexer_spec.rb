@@ -156,6 +156,14 @@ RSpec.describe Taken::Lexer do
         it { expect(token.literal).to eq('some-identifier')  }
         it { expect(token.white_spaces).to eq('')  }
       end
+
+      context 'with CAPITAL LETTERS' do
+        let(:content) { 'CAPITAL_LETTERS' }
+
+        it { expect(token.type).to eq(Taken::Token::IDENT)  }
+        it { expect(token.literal).to eq('CAPITAL_LETTERS')  }
+        it { expect(token.white_spaces).to eq('')  }
+      end
     end
 
     context 'white spaces are given' do
