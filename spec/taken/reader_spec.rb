@@ -4,7 +4,7 @@ require 'taken/reader'
 require 'taken/token'
 
 RSpec.describe Taken::Reader do
-  let(:file) { StringIO.new(content, 'r+') }
+  let(:file) { StringIO.new(content, 'r') }
 
   describe '#readcher' do
     let(:content) { '12' }

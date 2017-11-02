@@ -16,7 +16,7 @@ module Taken
         return false
       end
 
-      @file = File.open(next_file_name)
+      @file = File.open(next_file_name, 'r')
       @file_idx += 1
 
       true
