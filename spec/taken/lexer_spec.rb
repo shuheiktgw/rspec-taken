@@ -13,11 +13,67 @@ RSpec.describe Taken::Lexer do
     let(:file) { StringIO.new(content, 'r') }
 
     context '= is given' do
-      let(:content) { ' =' }
+      let(:content) { '=' }
 
       it { expect(token.type).to eq(Taken::Token::UNKNOWN)  }
       it { expect(token.literal).to eq('=')  }
-      it { expect(token.white_spaces).to eq(' ')  }
+      it { expect(token.white_spaces).to eq('')  }
+    end
+
+    context '== is given' do
+      let(:content) { '==' }
+
+      it { expect(token.type).to eq(Taken::Token::EQ)  }
+      it { expect(token.literal).to eq('==')  }
+      it { expect(token.white_spaces).to eq('')  }
+    end
+
+    context '=== is given' do
+      let(:content) { '===' }
+
+      it { expect(token.type).to eq(Taken::Token::UNKNOWN)  }
+      it { expect(token.literal).to eq('===')  }
+      it { expect(token.white_spaces).to eq('')  }
+    end
+
+    context '( is given' do
+      let(:content) { '(' }
+
+      it { expect(token.type).to eq(Taken::Token::LPAREN)  }
+      it { expect(token.literal).to eq('(')  }
+      it { expect(token.white_spaces).to eq('')  }
+    end
+
+    context ') is given' do
+      let(:content) { ')' }
+
+      it { expect(token.type).to eq(Taken::Token::RPAREN)  }
+      it { expect(token.literal).to eq(')')  }
+      it { expect(token.white_spaces).to eq('')  }
+    end
+
+    context '{ is given' do
+      let(:content) { '{' }
+
+      it { expect(token.type).to eq(Taken::Token::LBRACE)  }
+      it { expect(token.literal).to eq('{')  }
+      it { expect(token.white_spaces).to eq('')  }
+    end
+
+    context '} is given' do
+      let(:content) { '}' }
+
+      it { expect(token.type).to eq(Taken::Token::RBRACE)  }
+      it { expect(token.literal).to eq('}')  }
+      it { expect(token.white_spaces).to eq('')  }
+    end
+
+    context ': is given' do
+      let(:content) { ':' }
+
+      it { expect(token.type).to eq(Taken::Token::COLON)  }
+      it { expect(token.literal).to eq(':')  }
+      it { expect(token.white_spaces).to eq('')  }
     end
   end
 end

@@ -11,7 +11,6 @@ module Taken
     end
 
     def next_token
-      binding.pry
       eaten = eat_white_spaces
 
       token = case current_char
@@ -24,11 +23,21 @@ module Taken
             reader.readchar
             Taken::Token.new(type: Taken::Token::UNKNOWN, literal: '===')
           else
-            Taken::Token.new(type: Taken::Token::EQ, literal: '=')
+            Taken::Token.new(type: Taken::Token::EQ, literal: '==')
           end
         else
           Taken::Token.new(type: Taken::Token::UNKNOWN, literal: '=')
         end
+      when '('
+        Taken::Token.new(type: Taken::Token::LPAREN, literal: '(')
+      when ')'
+        Taken::Token.new(type: Taken::Token::RPAREN, literal: ')')
+      when '{'
+        Taken::Token.new(type: Taken::Token::LBRACE, literal: '{')
+      when '}'
+        Taken::Token.new(type: Taken::Token::RBRACE, literal: '}')
+      when ':'
+        Taken::Token.new(type: Taken::Token::COLON, literal: ':')
       end
 
       reader.readchar
