@@ -48,6 +48,10 @@ module Taken
       self
     end
 
+    def to_s
+      "#{white_spaces}#{literal}"
+    end
+
     def ==(other)
       self.instance_variables.map {|iv| self.instance_variable_get(iv) == other.instance_variable_get(iv)}.all?
     end
