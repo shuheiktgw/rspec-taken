@@ -10,7 +10,7 @@ module Taken
       end
 
       def to_r
-        "#{spaces}let(:#{keyword})"
+        "#{spaces}let(#{keyword})"
       end
     end
   end
