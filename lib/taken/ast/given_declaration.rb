@@ -1,6 +1,8 @@
+require 'taken/ast/ast_base'
+
 module Taken
   module Ast
-    class GivenDeclaration
+    class GivenDeclaration < Ast::AstBase
 
       attr_reader :spaces, :keyword
 

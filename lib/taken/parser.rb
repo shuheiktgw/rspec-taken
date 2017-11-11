@@ -2,6 +2,7 @@ require 'pry'
 require 'taken/token'
 require 'taken/ast/given_declaration'
 require 'taken/ast/unknown'
+require 'taken/ast/eof'
 
 module Taken
   class Parser
@@ -19,6 +20,8 @@ module Taken
       parsed = case current_token.type
       when Token::GIVEN
         parse_given
+      when Token::EOF
+        Ast::EOF.new
       else
         Ast::Unknown.new(token: current_token)
       end

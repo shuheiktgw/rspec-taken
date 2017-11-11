@@ -84,5 +84,25 @@ RSpec.describe Taken::Parser do
         end
       end
     end
+
+    context 'when EOF is given' do
+      let(:content) { '' }
+
+      context 'parsed once' do
+        it 'parsed eof' do
+          expect(parsed).to be_eof
+        end
+      end
+
+      context 'parsed twice' do
+        before do
+          parser.parse_next
+        end
+
+        it 'parsed eof' do
+          expect(parsed).to be_eof
+        end
+      end
+    end
   end
 end

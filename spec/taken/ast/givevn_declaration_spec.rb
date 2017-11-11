@@ -48,7 +48,6 @@ RSpec.describe Taken::Ast::GivenDeclaration do
 
         it { is_expected.to eq '     let("keyword")' }
       end
-
     end
   end
 end

@@ -1,6 +1,8 @@
+require 'taken/ast/ast_base'
+
 module Taken
   module Ast
-    class Unknown
+    class Unknown < Ast::AstBase
 
       attr_reader :token
 
