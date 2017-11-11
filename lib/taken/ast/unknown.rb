@@ -8,8 +8,16 @@ module Taken
         @token = token
       end
 
+      def spaces
+        token.white_spaces
+      end
+
+      def literal
+        token.literal
+      end
+
       def to_r
-        "#{token.spaces}#{token.literal}"
+        "#{spaces}#{literal}"
       end
     end
   end

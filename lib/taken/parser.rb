@@ -33,10 +33,14 @@ module Taken
       spaces = current_token.white_spaces
 
       get_next # Given -> (
-      get_next # (     -> :
-      get_next # :     -> IDENT
+      get_next # (     -> : or ' or "
 
-      keyword = current_token.literal
+      keyword = ''
+
+      while current_token.type != Token::RPAREN
+        keyword << current_token.literal
+        get_next
+      end
 
       Ast::GivenDeclaration.new(spaces: spaces, keyword: keyword)
     end

@@ -16,11 +16,72 @@ RSpec.describe Taken::Parser do
     let(:file) { StringIO.new(content, 'r') }
 
     context 'when Given is given' do
-      let(:content) { 'Given(:initial_contents) { [:second_item, :top_item] }' }
+      let(:content) {"Given(#{key}) { [:second_item, :top_item] }"}
 
-      it 'parsed given declaration' do
-        expect(parsed.spaces).to eq ''
-        expect(parsed.keyword).to eq 'initial_contents'
+      context 'key is symnol' do
+        let(:key) { ':initial_contents' }
+
+        context 'parsed once' do
+          it 'parsed given declaration' do
+            expect(parsed.spaces).to eq ''
+            expect(parsed.keyword).to eq ':initial_contents'
+          end
+        end
+
+        context 'parsed twice' do
+          before do
+            parser.parse_next
+          end
+
+          it 'parsed Unknown {' do
+            expect(parsed.spaces).to eq ' '
+            expect(parsed.literal).to eq '{'
+          end
+        end
+      end
+
+      context 'key is single quoted' do
+        let(:key) { "'initial_contents'" }
+
+        context 'parsed once' do
+          it 'parsed given declaration' do
+            expect(parsed.spaces).to eq ''
+            expect(parsed.keyword).to eq "'initial_contents'"
+          end
+        end
+
+        context 'parsed twice' do
+          before do
+            parser.parse_next
+          end
+
+          it 'parsed Unknown {' do
+            expect(parsed.spaces).to eq ' '
+            expect(parsed.literal).to eq '{'
+          end
+        end
+      end
+
+      context 'key is double quoted' do
+        let(:key) { '"initial_contents"' }
+
+        context 'parsed once' do
+          it 'parsed given declaration' do
+            expect(parsed.spaces).to eq ''
+            expect(parsed.keyword).to eq '"initial_contents"'
+          end
+        end
+
+        context 'parsed twice' do
+          before do
+            parser.parse_next
+          end
+
+          it 'parsed Unknown {' do
+            expect(parsed.spaces).to eq ' '
+            expect(parsed.literal).to eq '{'
+          end
+        end
       end
     end
   end
