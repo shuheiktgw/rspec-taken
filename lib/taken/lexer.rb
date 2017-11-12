@@ -1,4 +1,3 @@
-require 'pry'
 require 'taken/token'
 
 module Taken
