@@ -1,4 +1,3 @@
-require 'pry'
 require 'taken/token'
 require 'taken/ast/given_declaration'
 require 'taken/ast/unknown'

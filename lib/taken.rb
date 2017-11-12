@@ -1,3 +1,4 @@
+require 'pry'
 require 'taken/loader'
 require 'taken/reader'
 require 'taken/lexer'
@@ -20,7 +21,7 @@ module Taken
     end
 
     def reader
-      Reader.new(loader.file)
+      Reader.new(@loader.file)
     end
 
     def lexer
@@ -32,7 +33,7 @@ module Taken
     end
 
     def writer
-      Writer.new(loader.current_file_name)
+      Writer.new(file_path: @loader.current_file_name)
     end
 
     def generator

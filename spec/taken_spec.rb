@@ -1,11 +1,17 @@
-require "spec_helper"
+require 'spec_helper'
+require 'taken'
 
-RSpec.describe Rspec::Taken do
-  it "has a version number" do
-    expect(Rspec::Taken::VERSION).not_to be nil
-  end
+RSpec.describe Taken do
+  describe '#execute' do
+    before do
+      Taken.taken(file_path)
+    end
 
-  it "does something useful" do
-    expect(false).to eq(true)
+    let(:file_path) { File.expand_path(path, __FILE__) }
+
+    context 'plain ruby file is specified' do
+      let(:path) { '../taken/spec_samples/plain_specs/plain_third_spec.rb' }
+      it {}
+    end
   end
 end
