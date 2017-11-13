@@ -45,8 +45,6 @@ module Taken
           type = Token.lookup_ident(literal)
 
           Token.new(type: type, literal: literal)
-        elsif digit? current_char
-          Token.new(type: Token::NUMBER, literal: read_number)
         else
           Token.new(type: Token::UNKNOWN, literal: current_char)
         end

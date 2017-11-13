@@ -3,15 +3,19 @@ require 'taken'
 
 RSpec.describe Taken do
   describe '#execute' do
-    before do
-      Taken.taken(file_path)
-    end
-
+    subject { Taken.taken(file_path) }
     let(:file_path) { File.expand_path(path, __FILE__) }
 
     context 'plain ruby file is specified' do
       let(:path) { '../taken/spec_samples/plain_specs/plain_third_spec.rb' }
-      it {}
+
+      it { expect{ subject }.not_to raise_error }
+    end
+
+    context 'stack given file is specified' do
+      let(:path) { '../taken/spec_samples/given_specs/stack_spec.rb' }
+
+      it { expect{ subject }.not_to raise_error }
     end
   end
 end
