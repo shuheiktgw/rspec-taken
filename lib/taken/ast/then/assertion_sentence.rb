@@ -3,17 +3,17 @@ require 'taken/ast/ast_base'
 module Taken
   module Ast
     module Then
-      class NormalSentence < Ast::AstBase
+      class AssertionSentence < Ast::AstBase
 
-        attr_reader :spaces, :keyword
+        attr_reader :left, :right
 
-        def initialize(spaces:, keyword:)
-          @spaces = spaces
-          @keyword = keyword
+        def initialize(left:, right:)
+          @left = left
+          @right = right
         end
 
         def to_r
-          raise
+          "expect(#{left.map(&:to_s).join}).to eq(#{right.map(&:to_s).join})"
         end
       end
     end
