@@ -10,16 +10,8 @@ module Taken
         @token = token
       end
 
-      def spaces
-        token.white_spaces
-      end
-
-      def literal
-        token.literal
-      end
-
       def to_r
-        "#{spaces}#{literal}"
+        token.to_s
       end
     end
   end
