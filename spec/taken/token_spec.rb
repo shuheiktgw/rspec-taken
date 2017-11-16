@@ -53,4 +53,24 @@ RSpec.describe Taken::Token do
       end
     end
   end
+
+  describe '#newline?' do
+    subject { token.newline? }
+    let(:token) do
+      t = Taken::Token.new(type: Taken::Token::LPAREN, literal: '(')
+      t.attach_white_spaces spaces
+    end
+
+    context 'with newline' do
+      let(:spaces) { " \n      " }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'without newline' do
+      let(:spaces) { "      " }
+
+      it { is_expected.to be_falsey }
+    end
+  end
 end

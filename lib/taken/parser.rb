@@ -60,7 +60,7 @@ module Taken
       get_next
 
       sentences = parse_then_sentence
-      while opener.closer?(current_token)
+      while opener.block_closer?(current_token)
         sentences << parse_then_sentence
       end
 

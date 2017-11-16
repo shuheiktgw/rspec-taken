@@ -58,6 +58,10 @@ module Taken
       end
     end
 
+    def newline?
+      ["\n", "\r", "\r\n"].any? { |nl| self.white_spaces.include?(nl) }
+    end
+
     def to_s
       "#{white_spaces}#{literal}"
     end
