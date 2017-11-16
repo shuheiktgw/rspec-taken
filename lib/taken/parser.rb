@@ -60,7 +60,7 @@ module Taken
       get_next
 
       sentences = parse_then_sentence
-      while current_token.type != select_closer(opener)
+      while opener.closer?(current_token)
         sentences << parse_then_sentence
       end
 
@@ -71,16 +71,7 @@ module Taken
 
     def parse_then_sentence
 
-    end
 
-    def select_closer(opener)
-      if opener.type == Token::LBRACE
-        Token::RBRACE
-      elsif opener.type == Token::DO
-        Token::END
-      else
-        raise "Unknown opener is specified: #{opener.literal}"
-      end
     end
 
     def get_next

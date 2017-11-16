@@ -48,6 +48,16 @@ module Taken
       self
     end
 
+    def block_closer?(starter)
+      if self.type == Token::LBRACE
+        starter.type == Token::RBRACE
+      elsif self.type == Token::DO
+        starter.type == Token::END_KEY
+      else
+        raise "Unknown block opener is specified: #{self.literal}"
+      end
+    end
+
     def to_s
       "#{white_spaces}#{literal}"
     end
