@@ -51,7 +51,12 @@ module Taken
 
     def parse_then
       spaces = current_token.white_spaces
+
+      get_next # Then -> { or do
+
       block = parse_then_block
+
+      Ast::Then::Statement.new(spaces: spaces, block: block)
     end
 
     def parse_then_block
@@ -64,9 +69,13 @@ module Taken
         sentences << parse_then_sentence(opener)
       end
 
+      closer = current_token
+
       get_next
 
       sentences
+
+      Ast::Then::Block.new(opener: opener, sentences: sentences, closer: closer)
     end
 
     def parse_then_sentence(opener)
