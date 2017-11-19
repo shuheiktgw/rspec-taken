@@ -13,7 +13,7 @@ module Taken
         end
 
         def to_r
-          spaces + block.to_r
+          "#{spaces}it#{block.to_r}"
         end
       end
     end

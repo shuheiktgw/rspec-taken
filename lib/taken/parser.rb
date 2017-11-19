@@ -2,6 +2,11 @@ require 'taken/token'
 require 'taken/ast/given_declaration'
 require 'taken/ast/unknown'
 require 'taken/ast/eof'
+require 'taken/ast/then/statement'
+require 'taken/ast/then/block'
+require 'taken/ast/then/normal_sentence'
+require 'taken/ast/then/assertion_sentence'
+require 'pry'
 
 module Taken
   class Parser
@@ -64,16 +69,14 @@ module Taken
 
       get_next
 
-      sentences = parse_then_sentence(opener)
-      while opener.block_closer?(current_token)
+      sentences = []
+      until opener.block_closer?(current_token)
         sentences << parse_then_sentence(opener)
       end
 
       closer = current_token
 
       get_next
-
-      sentences
 
       Ast::Then::Block.new(opener: opener, sentences: sentences, closer: closer)
     end

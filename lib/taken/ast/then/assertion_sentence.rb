@@ -13,7 +13,7 @@ module Taken
         end
 
         def to_r
-          "expect(#{left.map(&:to_s).join}).to eq(#{right.map(&:to_s).join})"
+          "#{left.first.white_spaces}expect(#{left.map{|t| t.to_s(true) }.join}).to eq(#{right.map{|t| t.to_s(true) }.join})"
         end
       end
     end

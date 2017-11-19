@@ -62,8 +62,12 @@ module Taken
       ["\n", "\r", "\r\n"].any? { |nl| self.white_spaces.include?(nl) }
     end
 
-    def to_s
-      "#{white_spaces}#{literal}"
+    def to_s(ignore_space=false)
+      if ignore_space
+        literal
+      else
+        white_spaces + literal
+      end
     end
 
     def ==(other)

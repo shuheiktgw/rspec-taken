@@ -4,6 +4,7 @@ require 'taken/parser'
 require 'taken/lexer'
 require 'taken/reader'
 require 'taken/token'
+require 'pry'
 
 RSpec.describe Taken::Parser do
 
@@ -34,8 +35,7 @@ RSpec.describe Taken::Parser do
           end
 
           it 'parsed Unknown {' do
-            expect(parsed.spaces).to eq ' '
-            expect(parsed.literal).to eq '{'
+            expect(parsed.to_r).to eq ' {'
           end
         end
       end
@@ -56,8 +56,7 @@ RSpec.describe Taken::Parser do
           end
 
           it 'parsed Unknown {' do
-            expect(parsed.spaces).to eq ' '
-            expect(parsed.literal).to eq '{'
+            expect(parsed.to_r).to eq ' {'
           end
         end
       end
@@ -78,8 +77,19 @@ RSpec.describe Taken::Parser do
           end
 
           it 'parsed Unknown {' do
-            expect(parsed.spaces).to eq ' '
-            expect(parsed.literal).to eq '{'
+            expect(parsed.to_r).to eq ' {'
+          end
+        end
+      end
+    end
+
+    context 'when Then is given' do
+      context 'when block with do and end' do
+        context 'single sentence' do
+          let(:content) {'Then{ stack.depth == 0 }'}
+
+          it 'parses then statement' do
+            expect(parsed.to_r).to eq 'it{ expect(stack.depth).to eq(0) }'
           end
         end
       end
