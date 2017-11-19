@@ -127,6 +127,72 @@ RSpec.describe Taken::Parser do
 }' ''
             end
           end
+
+          context 'with normal sentences' do
+            let(:content) do
+              '' 'Then{
+  stack.push 1
+  stack.pop
+  stack.depth == 0
+  stack.count == 0
+  stack.sound == 0
+}' ''
+            end
+
+            it 'parses then statement' do
+              expect(parsed.to_r).to eq '' 'it{
+  stack.push 1
+  stack.pop
+  expect(stack.depth).to eq(0)
+  expect(stack.count).to eq(0)
+  expect(stack.sound).to eq(0)
+}' ''
+            end
+          end
+        end
+      end
+
+      context 'when block with brackets' do
+        context 'multiple sentence' do
+          context 'without normal sentences' do
+            let(:content) do
+              '' '  Then do
+    stack.depth == 0
+    stack.count == 0
+    stack.sound == 0
+  end' ''
+            end
+
+            it 'parses then statement' do
+              expect(parsed.to_r).to eq '' '  it do
+    expect(stack.depth).to eq(0)
+    expect(stack.count).to eq(0)
+    expect(stack.sound).to eq(0)
+  end' ''
+            end
+          end
+
+          context 'with normal sentences' do
+            let(:content) do
+              '' '  Then do
+    stack.push 1
+    stack.pop
+    stack.depth == 0
+    stack.count == 0
+    stack.sound == 0
+  end' ''
+            end
+
+            it 'parses then statement' do
+              expect(parsed.to_r).to eq '' '  it do
+    stack.push 1
+    stack.pop
+    expect(stack.depth).to eq(0)
+    expect(stack.count).to eq(0)
+    expect(stack.sound).to eq(0)
+  end' ''
+            end
+          end
         end
       end
     end
