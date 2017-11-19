@@ -10,8 +10,6 @@ module Taken
   class << self
 
     def taken(path)
-      binding.pry
-
       while loader(path).load_next_file
         generator.execute
       end
