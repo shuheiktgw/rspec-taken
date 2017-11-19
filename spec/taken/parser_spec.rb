@@ -110,43 +110,61 @@ RSpec.describe Taken::Parser do
         end
 
         context 'multiple sentence' do
-          context 'without normal sentences' do
-            let(:content) do
-              '' 'Then{
+          context 'one block' do
+            context 'without normal sentences' do
+              let(:content) do
+                '' 'Then{
   stack.depth == 0
   stack.count == 0
   stack.sound == 0
 }' ''
-            end
+              end
 
-            it 'parses then statement' do
-              expect(parsed.to_r).to eq '' 'it{
+              it 'parses then statement' do
+                expect(parsed.to_r).to eq '' 'it{
   expect(stack.depth).to eq(0)
   expect(stack.count).to eq(0)
   expect(stack.sound).to eq(0)
 }' ''
+              end
+            end
+
+            context 'with normal sentences' do
+              let(:content) do
+                '' 'Then{
+  stack.push 1
+  stack.pop
+  stack.depth == 0
+  stack.count == 0
+  stack.sound == 0
+}' ''
+              end
+
+              it 'parses then statement' do
+                expect(parsed.to_r).to eq '' 'it{
+  stack.push 1
+  stack.pop
+  expect(stack.depth).to eq(0)
+  expect(stack.count).to eq(0)
+  expect(stack.sound).to eq(0)
+}' ''
+              end
             end
           end
+          context 'multiple blocks' do
+            context 'without normal sentences' do
+              let(:content) do
+                '' '  Then{ stack.depth == 0 }
+  Then{ stack.depth == 0 }
+  Then{ stack.depth == 0 }
+' ''
+              end
 
-          context 'with normal sentences' do
-            let(:content) do
-              '' 'Then{
-  stack.push 1
-  stack.pop
-  stack.depth == 0
-  stack.count == 0
-  stack.sound == 0
-}' ''
-            end
-
-            it 'parses then statement' do
-              expect(parsed.to_r).to eq '' 'it{
-  stack.push 1
-  stack.pop
-  expect(stack.depth).to eq(0)
-  expect(stack.count).to eq(0)
-  expect(stack.sound).to eq(0)
-}' ''
+              it 'parses then statement' do
+                expect(parser.parse_next.to_r).to eq ('  it{ expect(stack.depth).to eq(0) }')
+                expect(parser.parse_next.to_r).to eq ("\n  it{ expect(stack.depth).to eq(0) }")
+                expect(parser.parse_next.to_r).to eq ("\n  it{ expect(stack.depth).to eq(0) }")
+              end
             end
           end
         end

@@ -76,8 +76,6 @@ module Taken
 
       closer = current_token
 
-      get_next
-
       Ast::Then::Block.new(opener: opener, sentences: sentences, closer: closer)
     end
 
