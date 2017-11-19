@@ -84,13 +84,33 @@ RSpec.describe Taken::Parser do
     end
 
     context 'when Then is given' do
-      context 'when block with do and end' do
+      context 'when block with brackets' do
         context 'single sentence' do
-          let(:content) {'Then{ stack.depth == 0 }'}
+          context 'without newline' do
+            let(:content) {'Then{ stack.depth == 0 }'}
 
-          it 'parses then statement' do
-            expect(parsed.to_r).to eq 'it{ expect(stack.depth).to eq(0) }'
+            it 'parses then statement' do
+              expect(parsed.to_r).to eq 'it{ expect(stack.depth).to eq(0) }'
+            end
           end
+
+          context 'with newline' do
+            let(:content) do
+              '''Then{
+  stack.depth == 0
+}'''
+            end
+
+            it 'parses then statement' do
+              expect(parsed.to_r).to eq '''it{
+  expect(stack.depth).to eq(0)
+}'''
+            end
+          end
+        end
+
+        context 'multiple sentence' do
+
         end
       end
     end

@@ -66,7 +66,7 @@ module Taken
       if ignore_space
         literal
       else
-        white_spaces + literal
+        "#{white_spaces}#{literal}"
       end
     end
 

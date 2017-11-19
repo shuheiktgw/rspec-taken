@@ -85,7 +85,7 @@ module Taken
       tokens = []
       eq_count = 0
 
-      until current_token.newline? || opener.block_closer?(current_token)
+      until (!tokens.empty? && current_token.newline?) || opener.block_closer?(current_token)
         tokens << current_token
         eq_count += 1 if current_token.type == Token::EQ
 
