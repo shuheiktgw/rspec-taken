@@ -3,7 +3,7 @@ require 'taken/ast/given_declaration'
 require 'taken/ast/unknown'
 require 'taken/ast/eof'
 require 'taken/ast/then/statement'
-require 'taken/ast/then/block'
+require 'taken/ast/block'
 require 'taken/ast/then/normal_sentence'
 require 'taken/ast/then/assertion_sentence'
 require 'pry'
@@ -59,27 +59,27 @@ module Taken
 
       get_next # Then -> { or do
 
-      block = parse_then_block
+      block = parse_block
 
       Ast::Then::Statement.new(spaces: spaces, block: block)
     end
 
-    def parse_then_block
+    def parse_block
       opener = current_token
 
       get_next
 
       sentences = []
       until opener.block_closer?(current_token)
-        sentences << parse_then_sentence(opener)
+        sentences << parse_block_sentence(opener)
       end
 
       closer = current_token
 
-      Ast::Then::Block.new(opener: opener, sentences: sentences, closer: closer)
+      Ast::Block.new(opener: opener, sentences: sentences, closer: closer)
     end
 
-    def parse_then_sentence(opener)
+    def parse_block_sentence(opener)
       tokens = []
       eq_count = 0
 
