@@ -59,7 +59,18 @@ module Taken
 
       get_next # Then -> { or do
 
-      block = parse_block
+      block = parse_block do |tokens|
+        eq_count = tokens.count {|t| t.type == Token::EQ }
+
+        if eq_count == 0
+          Ast::Then::NormalSentence.new(tokens)
+        elsif eq_count == 1
+          idx = tokens.index{ |token| token.type == Token::EQ }
+          Ast::Then::AssertionSentence.new(left: tokens[0...idx], right: tokens[idx+1..-1])
+        else
+          raise "Cannot parse then statement with more than two == tokens. got: #{eq_count}"
+        end
+      end
 
       Ast::Then::Statement.new(spaces: spaces, block: block)
     end
@@ -71,7 +82,9 @@ module Taken
 
       sentences = []
       until opener.block_closer?(current_token)
-        sentences << parse_block_sentence(opener)
+        sentences << parse_block_sentence(opener) do |tokens|
+          yield tokens
+        end
       end
 
       closer = current_token
@@ -81,27 +94,17 @@ module Taken
 
     def parse_block_sentence(opener)
       tokens = []
-      eq_count = 0
 
       until (!tokens.empty? && current_token.newline?) || opener.block_closer?(current_token)
         tokens << current_token
-        eq_count += 1 if current_token.type == Token::EQ
-
         get_next
       end
 
-      form_then_sentence tokens, eq_count
+      yield tokens
     end
 
-    def form_then_sentence(tokens, eq_count)
-      if eq_count == 0
-        Ast::Then::NormalSentence.new(tokens)
-      elsif eq_count == 1
-        idx = tokens.index{ |token| token.type == Token::EQ }
-        Ast::Then::AssertionSentence.new(left: tokens[0...idx], right: tokens[idx+1..-1])
-      else
-        raise "Cannot parse then statement with more than two == tokens. got: #{eq_count}"
-      end
+    def form_then_sentence(tokens)
+
     end
 
     def get_next
