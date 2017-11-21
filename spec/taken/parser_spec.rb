@@ -111,7 +111,7 @@ RSpec.describe Taken::Parser do
 
         context 'multiple sentence' do
           context 'one block' do
-            context 'without normal sentences' do
+            context 'without plain sentences' do
               let(:content) do
                 '' 'Then{
   stack.depth == 0
@@ -129,7 +129,7 @@ RSpec.describe Taken::Parser do
               end
             end
 
-            context 'with normal sentences' do
+            context 'with plain sentences' do
               let(:content) do
                 '' 'Then{
   stack.push 1
@@ -152,7 +152,7 @@ RSpec.describe Taken::Parser do
             end
           end
           context 'multiple blocks' do
-            context 'without normal sentences' do
+            context 'without plain sentences' do
               let(:content) do
                 '' '  Then{ stack.depth == 0 }
   Then{ stack.depth == 0 }
@@ -172,7 +172,7 @@ RSpec.describe Taken::Parser do
 
       context 'when block with brackets' do
         context 'multiple sentence' do
-          context 'without normal sentences' do
+          context 'without plain sentences' do
             let(:content) do
               '' '  Then do
     stack.depth == 0
@@ -190,7 +190,7 @@ RSpec.describe Taken::Parser do
             end
           end
 
-          context 'with normal sentences' do
+          context 'with plain sentences' do
             let(:content) do
               '' '  Then do
     stack.push 1

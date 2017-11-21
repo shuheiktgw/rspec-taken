@@ -4,7 +4,7 @@ require 'taken/ast/unknown'
 require 'taken/ast/eof'
 require 'taken/ast/assertions/then/statement'
 require 'taken/ast/block'
-require 'taken/ast/assertions/normal_sentence'
+require 'taken/ast/plain_sentence'
 require 'taken/ast/assertions/assertion_sentence'
 require 'pry'
 
@@ -63,7 +63,7 @@ module Taken
         eq_count = tokens.count {|t| t.type == Token::EQ }
 
         if eq_count == 0
-          Ast::Assertions::NormalSentence.new(tokens)
+          Ast::PlainSentence.new(tokens)
         elsif eq_count == 1
           idx = tokens.index{ |token| token.type == Token::EQ }
           Ast::Assertions::AssertionSentence.new(left: tokens[0...idx], right: tokens[idx+1..-1])
