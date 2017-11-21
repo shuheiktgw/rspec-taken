@@ -6,15 +6,17 @@ module Taken
       module And
         class AssertionSentence < Ast::AstBase
 
+          attr_accessor :left_spaces
           attr_reader :left, :right
 
           def initialize(left:, right:)
+            @left_spaces = left.first.white_spaces
             @left = left
             @right = right
           end
 
           def to_r
-            "#{left.first.white_spaces}expect(#{form_sentence left}).to eq(#{form_sentence right})"
+            "#{left_spaces}expect(#{form_sentence left}).to eq(#{form_sentence right})"
           end
 
           def form_sentence(tokens)

@@ -15,6 +15,10 @@ module Taken
       def to_r
         "#{opener.to_s}#{sentences.map(&:to_r).join}#{closer.to_s}"
       end
+
+      def merge_sentences(another_sentences)
+        @sentences << another_sentences
+      end
     end
   end
 end
