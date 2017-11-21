@@ -2,7 +2,7 @@ require 'taken/ast/ast_base'
 
 module Taken
   module Ast
-    module Then
+    module Assertions
       class NormalSentence < Ast::AstBase
 
         attr_reader :tokens
