@@ -5,7 +5,7 @@ require 'taken/ast/eof'
 require 'taken/ast/assertions/then/statement'
 require 'taken/ast/block'
 require 'taken/ast/plain_sentence'
-require 'taken/ast/assertions/assertion_sentence'
+require 'taken/ast/assertions//then/assertion_sentence'
 require 'pry'
 
 module Taken
@@ -66,7 +66,7 @@ module Taken
           Ast::PlainSentence.new(tokens)
         elsif eq_count == 1
           idx = tokens.index{ |token| token.type == Token::EQ }
-          Ast::Assertions::AssertionSentence.new(left: tokens[0...idx], right: tokens[idx+1..-1])
+          Ast::Assertions::Then::AssertionSentence.new(left: tokens[0...idx], right: tokens[idx+1..-1])
         else
           raise "Cannot parse then statement with more than two == tokens. got: #{eq_count}"
         end

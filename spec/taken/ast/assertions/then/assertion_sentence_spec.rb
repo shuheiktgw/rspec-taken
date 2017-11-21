@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'taken/token'
-require 'taken/ast/assertions/assertion_sentence'
+require 'taken/ast/assertions/then/assertion_sentence'
 
-RSpec.describe Taken::Ast::Unknown do
+RSpec.describe Taken::Ast::Assertions::Then::AssertionSentence do
   describe 'to_r' do
-    subject { Taken::Ast::Assertions::AssertionSentence.new(left: left, right: right).to_r }
+    subject { Taken::Ast::Assertions::Then::AssertionSentence.new(left: left, right: right).to_r }
 
     # stack.depth == 1
     let(:left) do

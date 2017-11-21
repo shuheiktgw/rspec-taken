@@ -14,7 +14,7 @@ module Taken
           end
 
           def to_r
-            "#{spaces}it#{block.to_r}"
+            "#{block.sentences}"
           end
         end
       end
