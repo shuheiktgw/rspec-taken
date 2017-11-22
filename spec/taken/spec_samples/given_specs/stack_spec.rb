@@ -21,11 +21,11 @@ RSpec.describe Stack do
 
       Then { stack.depth == 1 }
       Then { stack.top == :an_item }
-    end
+end
 
-    context "when popping" do
-      When(:result) { stack.pop }
-      Then { result == Failure(Stack::UnderflowError, /empty/) }
+context "when popping" do
+When(:result) { stack.pop }
+Then { result == Failure(Stack::UnderflowError, /empty/) }
     end
   end
 

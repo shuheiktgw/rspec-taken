@@ -1,13 +1,13 @@
 module Taken
   class Writer
 
-    attr_reader :file
+    attr_reader :file, :new_file_path
 
     def initialize(file_path:)
-      fp = file_path.gsub!(/_spec.rb/, '_taken_spec.rb')
-      raise "Invalid file path is given. file_path: #{file_path}" if fp.nil?
+      @new_file_path = file_path.gsub!(/_spec.rb/, '_taken_spec.rb')
+      raise "Invalid file path is given. file_path: #{file_path}" if @new_file_path.nil?
 
-      @file = File.open(fp, 'w')
+      @file = File.open(@new_file_path, 'w')
     end
 
     def write(content)

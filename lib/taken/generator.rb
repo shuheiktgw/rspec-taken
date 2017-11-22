@@ -1,3 +1,5 @@
+require 'rufo'
+
 module Taken
   class Generator
 
@@ -17,6 +19,10 @@ module Taken
       end
 
       writer.close
+
+      Rufo::Command.run([writer.new_file_path])
+    rescue SystemExit => e
+      puts "Format Completed. status :#{e.status}"
     end
   end
 end

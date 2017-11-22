@@ -7,7 +7,7 @@ RSpec.describe Taken do
     let(:file_path) { File.expand_path(path, __FILE__) }
 
     context 'plain ruby file is specified' do
-      let(:path) { '../taken/spec_samples/plain_specs/plain_third_spec.rb' }
+      let(:path) { '../taken/spec_samples/plain_specs/plain_second_spec.rb' }
 
       it { expect{ subject }.not_to raise_error }
     end
