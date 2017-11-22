@@ -7,13 +7,13 @@ RSpec.describe Taken::Loader do
       subject { Taken::Loader.new(File.expand_path(path, __FILE__)).file_names }
 
       context 'when file is given' do
-        let(:path) { '../spec_samples/plain_specs/plain_first_spec.rb' }
+        let(:path) { '../../../lib/taken/spec_samples/plain_specs/plain_first_spec.rb' }
         it { is_expected.to eq [ File.expand_path(path, __FILE__) ] }
       end
 
       context 'when directory is given' do
-        let(:path) { '../spec_samples/plain_specs' }
-        it { expect(subject.length).to eq 3 }
+        let(:path) { '../../../lib/taken/spec_samples/plain_specs' }
+        it { expect(subject.length).to eq 5 }
         it { is_expected.to include(File.expand_path(path + '/plain_first_spec.rb', __FILE__)) }
         it { is_expected.to include(File.expand_path(path + '/plain_second_spec.rb', __FILE__)) }
         it { is_expected.not_to include(File.expand_path(path + '/plain_ruby.rb', __FILE__)) }
@@ -33,7 +33,7 @@ RSpec.describe Taken::Loader do
         end
 
         context 'when directory does not contain _spec.rb file' do
-          let(:path) { '../spec_samples/only_plain_ruby' }
+          let(:path) { '../../../lib/taken/spec_samples/only_plain_ruby' }
 
           it 'should raise RuntimeError' do
             expect { subject }.to raise_error RuntimeError, 'The given path does not contain _spec.rb file.'
@@ -43,7 +43,7 @@ RSpec.describe Taken::Loader do
 
       context 'when file specifies' do
         context 'when file does not exit' do
-          let(:path) { '../spec_samples/not_exited_spec.rb' }
+          let(:path) { '../../../lib/taken/spec_samples/not_exited_spec.rb' }
 
           it 'should raise Errno::ENOENT' do
             expect { subject }.to raise_error Errno::ENOENT
@@ -51,7 +51,7 @@ RSpec.describe Taken::Loader do
         end
 
         context 'when file is not _spec.rb file' do
-          let(:path) { '../spec_samples/only_plain_ruby/plain_ruby.rb' }
+          let(:path) { '../../../lib/taken/spec_samples/only_plain_ruby/plain_ruby.rb' }
 
           it 'should raise RuntimeError' do
             expect { subject }.to raise_error RuntimeError, 'The file does not end with _spec.rb.'
@@ -63,7 +63,7 @@ RSpec.describe Taken::Loader do
 
   describe '#load_next_file' do
     let(:loader) { Taken::Loader.new(path) }
-    let(:path) { File.expand_path('../spec_samples/plain_specs/plain_first_spec.rb', __FILE__) }
+    let(:path) { File.expand_path('../../../lib/taken/spec_samples/plain_specs/plain_first_spec.rb', __FILE__) }
 
     context 'within range' do
       subject do
