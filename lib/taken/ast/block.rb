@@ -17,7 +17,10 @@ module Taken
       end
 
       def merge_sentences(another_sentences)
-        @sentences << another_sentences
+        left_spaces = @sentences.last.left_spaces
+        space_injected = another_sentences.map{ |as| as.left_spaces = left_spaces }
+
+        @sentences << space_injected
       end
     end
   end
