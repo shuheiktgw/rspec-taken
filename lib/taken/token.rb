@@ -62,6 +62,10 @@ module Taken
       ["\n", "\r", "\r\n"].any? { |nl| self.white_spaces.include?(nl) }
     end
 
+    def add_new_line!
+      @white_spaces << "\n"
+    end
+
     def to_s(ignore_space=false)
       if ignore_space
         literal

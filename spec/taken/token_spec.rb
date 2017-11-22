@@ -73,4 +73,15 @@ RSpec.describe Taken::Token do
       it { is_expected.to be_falsey }
     end
   end
+
+  describe '#add_new_line!' do
+    subject { token.white_spaces }
+    let(:token){ Taken::Token.new(type: Taken::Token::LPAREN, literal: '(').attach_white_spaces '' }
+
+    before do
+      token.add_new_line!
+    end
+
+    it { is_expected.to eq "\n" }
+  end
 end
