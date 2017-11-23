@@ -6,27 +6,23 @@ module Taken
       module And
         class AssertionSentence < Ast::AstBase
 
-          attr_accessor :left_spaces
           attr_reader :left, :right
 
           def initialize(left:, right:)
-            @left_spaces = left.first.white_spaces
             @left = left
             @right = right
           end
 
           def to_r
-            "#{left_spaces}expect(#{form_sentence left}).to eq(#{form_sentence right})"
+            "#{left.first.white_spaces}expect(#{ left.map(&:to_s).join }).to eq(#{ right.map(&:to_s).join })"
           end
 
-          def form_sentence(tokens)
-            tokens.map.with_index do |t, i|
-              if i == 0
-                t.to_s(true)
-              else
-                t.to_s
-              end
-            end.join
+          def new_line?
+            @left.first.new_line?
+          end
+
+          def add_new_line!
+            @left.first.add_new_line!
           end
         end
       end
