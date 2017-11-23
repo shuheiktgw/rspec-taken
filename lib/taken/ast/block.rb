@@ -1,4 +1,5 @@
 require 'taken/ast/ast_base'
+require 'taken/token'
 
 module Taken
   module Ast
@@ -17,10 +18,23 @@ module Taken
       end
 
       def merge_sentences(another_sentences)
-        left_spaces = @sentences.last.left_spaces
-        space_injected = another_sentences.map{ |as| as.left_spaces = left_spaces }
+        multiply_block
 
-        @sentences << space_injected
+        new_lined_another_sentences = another_sentences.map.with_index do |as, i|
+          as.add_new_line! if i == 0
+        end
+
+        @sentences << new_lined_another_sentences
+      end
+
+      private
+
+      def multiply_block
+        @opener = Token.new(type: Token::DO, literal: 'do').attach_white_spaces opener.white_spaces
+        @closer = Token.new(type: Token::END_KEY, literal: 'end').attach_white_spaces closer.white_spaces
+
+        @closer.add_new_line! unless @closer.newline?
+        @sentences.first.add_new_line!
       end
     end
   end
