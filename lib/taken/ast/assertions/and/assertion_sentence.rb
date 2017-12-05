@@ -22,7 +22,7 @@ module Taken
           end
 
           def add_new_line!
-            @left.first.add_new_line!
+            @left.first.add_new_line! unless new_line?
           end
         end
       end

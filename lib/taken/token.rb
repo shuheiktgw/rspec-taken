@@ -38,9 +38,10 @@ module Taken
       KEYWORDS[literal.to_sym] || IDENT
     end
 
-    def initialize(type:, literal:)
+    def initialize(type:, literal:, white_spaces: '')
       @type = type
       @literal = literal
+      @white_spaces = white_spaces
     end
 
     def attach_white_spaces(spaces)
