@@ -14,12 +14,13 @@ module Taken
         "#{tokens.map(&:to_s).join}"
       end
 
-      def new_line?
-        tokens.first.new_line?
+      def newline?
+        tokens.first.newline?
       end
 
       def add_new_line!
-        tokens.first.add_new_line! unless new_line?
+        tokens.first.add_new_line! unless newline?
+        self
       end
     end
   end

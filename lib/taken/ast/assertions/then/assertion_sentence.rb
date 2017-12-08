@@ -17,12 +17,13 @@ module Taken
             "#{left.first.white_spaces}expect(#{ left.map(&:to_s).join }).to eq(#{ right.map(&:to_s).join })"
           end
 
-          def new_line?
-            @left.first.new_line?
+          def newline?
+            @left.first.newline?
           end
 
           def add_new_line!
-            @left.first.add_new_line! unless new_line?
+            @left.first.add_new_line! unless newline?
+            self
           end
         end
       end

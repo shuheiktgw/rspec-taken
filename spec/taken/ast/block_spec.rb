@@ -8,18 +8,58 @@ RSpec.describe Taken::Ast::Block do
 
     let(:block) do
       Taken::Ast::Block.new(
-        opener: Taken::Ast::Unknown.new(token: opener),
-        sentences: sentences,
-        closer: Taken::Ast::Unknown.new(token: closer)
+        opener: opener,
+        sentences: original_sentences,
+        closer: closer
       )
     end
 
-    let()
+    let(:original_sentences) { [original_sentence] }
+    let(:original_sentence) { Taken::Ast::PlainSentence.new([Taken::Token.new(type: Taken::Token::IDENT, literal: 'original', white_spaces: original_sentence_space)]) }
+
+    let(:another_sentences) { [another_sentence] }
+    let(:another_sentence) { Taken::Ast::PlainSentence.new([Taken::Token.new(type: Taken::Token::IDENT, literal: 'another', white_spaces: another_sentence_space)]) }
 
     before do
-      block.merge_sentences(another_sentenes)
+      block.merge_sentences(another_sentences)
     end
 
-    it {is_expected.to be_eof}
+    context '{} block' do
+      let(:opener) { Taken::Token.new(type: Taken::Token::LBRACE, literal: '{') }
+      let(:closer) { Taken::Token.new(type: Taken::Token::RBRACE, literal: '}', white_spaces: closer_space) }
+
+      context 'block with newline' do
+        let(:closer_space) { "\n" }
+
+        context 'original sentence with newline' do
+          let(:original_sentence_space) { "\n" }
+
+          context 'another sentence with newline' do
+            let(:another_sentence_space) { "\n" }
+
+            it 'multiplies {} into do end' do
+              expect(subject).to eq "do\noriginal\nanother\nend"
+            end
+          end
+
+          context 'another sentence without newline' do
+            let(:another_sentence_space) { '' }
+
+            it 'multiplies {} into do end and add newline at the head of another sentence' do
+              expect(subject).to eq "do\noriginal\nanother\nend"
+            end
+          end
+        end
+      end
+
+      context 'block without newline' do
+        let(:closer_space) { '' }
+
+      end
+    end
+
+    context 'do end block' do
+
+    end
   end
 end

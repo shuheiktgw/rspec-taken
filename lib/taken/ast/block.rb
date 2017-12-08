@@ -24,7 +24,8 @@ module Taken
           as.add_new_line! if i == 0
         end
 
-        @sentences << new_lined_another_sentences
+        @sentences = @sentences + new_lined_another_sentences
+        self
       end
 
       private

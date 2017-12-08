@@ -65,6 +65,7 @@ module Taken
 
     def add_new_line!
       @white_spaces << "\n"
+      self
     end
 
     def to_s(ignore_space=false)
