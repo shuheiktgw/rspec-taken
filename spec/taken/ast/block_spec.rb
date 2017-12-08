@@ -45,7 +45,27 @@ RSpec.describe Taken::Ast::Block do
           context 'another sentence without newline' do
             let(:another_sentence_space) { '' }
 
-            it 'multiplies {} into do end and add newline at the head of another sentence' do
+            it 'multiplies {} into do end' do
+              expect(subject).to eq "do\noriginal\nanother\nend"
+            end
+          end
+        end
+
+        context 'original sentence without newline' do
+          let(:original_sentence_space) { '' }
+
+          context 'another sentence with newline' do
+            let(:another_sentence_space) { "\n" }
+
+            it 'multiplies {} into do end' do
+              expect(subject).to eq "do\noriginal\nanother\nend"
+            end
+          end
+
+          context 'another sentence without newline' do
+            let(:another_sentence_space) { '' }
+
+            it 'multiplies {} into do end' do
               expect(subject).to eq "do\noriginal\nanother\nend"
             end
           end
@@ -55,11 +75,58 @@ RSpec.describe Taken::Ast::Block do
       context 'block without newline' do
         let(:closer_space) { '' }
 
+        context 'original sentence with newline' do
+          let(:original_sentence_space) { "\n" }
+
+          context 'another sentence with newline' do
+            let(:another_sentence_space) { "\n" }
+
+            it 'multiplies {} into do end' do
+              expect(subject).to eq "do\noriginal\nanother\nend"
+            end
+          end
+
+          context 'another sentence without newline' do
+            let(:another_sentence_space) { '' }
+
+            it 'multiplies {} into do end' do
+              expect(subject).to eq "do\noriginal\nanother\nend"
+            end
+          end
+        end
+
+        context 'original sentence without newline' do
+          let(:original_sentence_space) { '' }
+
+          context 'another sentence with newline' do
+            let(:another_sentence_space) { "\n" }
+
+            it 'multiplies {} into do end' do
+              expect(subject).to eq "do\noriginal\nanother\nend"
+            end
+          end
+
+          context 'another sentence without newline' do
+            let(:another_sentence_space) { '' }
+
+            it 'multiplies {} into do end' do
+              expect(subject).to eq "do\noriginal\nanother\nend"
+            end
+          end
+        end
       end
     end
 
     context 'do end block' do
+      let(:opener) { Taken::Token.new(type: Taken::Token::DO, literal: 'do') }
+      let(:closer) { Taken::Token.new(type: Taken::Token::END_KEY, literal: 'end', white_spaces: "\n") }
 
+      let(:original_sentence_space) { "\n" }
+      let(:another_sentence_space) { "\n" }
+
+      it 'multiplies {} into do end' do
+        expect(subject).to eq "do\noriginal\nanother\nend"
+      end
     end
   end
 end
