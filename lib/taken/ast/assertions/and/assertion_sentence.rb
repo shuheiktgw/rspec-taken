@@ -14,11 +14,21 @@ module Taken
           end
 
           def to_r
-            "#{left.first.white_spaces}expect(#{ left.map(&:to_s).join }).to eq(#{ right.map(&:to_s).join })"
+            "#{left.first.white_spaces}expect(#{ form_sentence left }).to eq(#{ form_sentence right })"
           end
 
           def newline?
             @left.first.newline?
+          end
+
+          def form_sentence(tokens)
+            tokens.map.with_index do |t, i|
+              if i == 0
+                t.to_s(true)
+              else
+                t.to_s
+              end
+            end.join
           end
 
           def add_new_line!
