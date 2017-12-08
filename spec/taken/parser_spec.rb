@@ -90,7 +90,7 @@ RSpec.describe Taken::Parser do
             let(:content) {'Then{ stack.depth == 0 }'}
 
             it 'parses then statement' do
-              expect(parsed.to_r).to eq 'it{ expect( stack.depth).to eq( 0) }'
+              expect(parsed.to_r).to eq 'it{ expect(stack.depth).to eq(0) }'
             end
           end
 
@@ -103,7 +103,7 @@ RSpec.describe Taken::Parser do
 
             it 'parses then statement' do
               expect(parsed.to_r).to eq '' 'it{
-  expect(  stack.depth).to eq( 0)
+  expect(stack.depth).to eq(0)
 }' ''
             end
           end
