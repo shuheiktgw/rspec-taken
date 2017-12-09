@@ -13,6 +13,10 @@ module Taken
             @block = block
           end
 
+          def merged_sentences
+            block.sentences
+          end
+
           def to_r
             raise 'Cannot call and to_r of And Statement. Something must be wrong with the logic.'
           end

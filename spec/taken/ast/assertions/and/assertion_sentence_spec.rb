@@ -1,28 +1,22 @@
 require 'spec_helper'
 require 'taken/token'
-require 'taken/ast/assertions/then/assertion_sentence'
+require 'taken/ast/assertions/and/statement'
 
-RSpec.describe Taken::Ast::Assertions::Then::AssertionSentence do
-  describe 'to_r' do
-    subject { Taken::Ast::Assertions::Then::AssertionSentence.new(left: left, right: right).to_r }
+RSpec.describe Taken::Ast::Assertions::And::Statement do
+  describe 'merged_sentences' do
+    subject { Taken::Ast::Assertions::And::Statement.new(spaces: '', block: block).merged_sentences }
 
-    # stack.depth == 1
-    let(:left) do
-      [
-        Taken::Token.new(type: Taken::Token::IDENT, literal: 'stack' ),
-        Taken::Token.new(type: Taken::Token::UNKNOWN, literal: '.' ),
-        Taken::Token.new(type: Taken::Token::IDENT, literal: 'depth' )
-      ]
+    let(:block) do
+      Taken::Ast::Block.new(
+        opener: Taken::Token.new(type: Taken::Token::LBRACE, literal: '{'),
+        sentences: sentences,
+        closer: Taken::Token.new(type: Taken::Token::RBRACE, literal: '}')
+      )
     end
 
-    let(:right) do
-      [
-        Taken::Token.new(type: Taken::Token::UNKNOWN, literal: '1' ),
-        Taken::Token.new(type: Taken::Token::UNKNOWN, literal: '+' ).attach_white_spaces(' '),
-        Taken::Token.new(type: Taken::Token::UNKNOWN, literal: '1' ).attach_white_spaces(' '),
-      ]
-    end
+    let(:sentences) { [sentence] }
+    let(:sentence) { Taken::Ast::PlainSentence.new([Taken::Token.new(type: Taken::Token::IDENT, literal: 'original', white_spaces: '')]) }
 
-    it { is_expected.to eq 'expect(stack.depth).to eq(1 + 1)' }
+    it { is_expected.to eq sentences }
   end
 end
