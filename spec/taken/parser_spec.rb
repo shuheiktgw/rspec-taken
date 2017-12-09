@@ -215,6 +215,14 @@ RSpec.describe Taken::Parser do
       end
     end
 
+    context 'when And is given' do
+      let(:content) {'And{ stack.depth == 0 }'}
+
+      it 'raises runtime error' do
+        expect{ parsed.to_r }.to raise_error RuntimeError, 'Cannot call and to_r of And Statement. Something must be wrong with the logic.'
+      end
+    end
+
     context 'when EOF is given' do
       let(:content) {''}
 

@@ -14,7 +14,7 @@ module Taken
           end
 
           def to_r
-            "#{block.sentences}"
+            raise 'Cannot call and to_r of And Statement. Something must be wrong with the logic.'
           end
         end
       end

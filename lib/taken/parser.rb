@@ -2,11 +2,12 @@ require 'taken/token'
 require 'taken/ast/given_declaration'
 require 'taken/ast/unknown'
 require 'taken/ast/eof'
-require 'taken/ast/assertions/then/statement'
 require 'taken/ast/block'
 require 'taken/ast/plain_sentence'
+require 'taken/ast/assertions/then/statement'
 require 'taken/ast/assertions//then/assertion_sentence'
-require 'pry'
+require 'taken/ast/assertions/and/statement'
+require 'taken/ast/assertions//and/assertion_sentence'
 
 module Taken
   class Parser
@@ -25,7 +26,9 @@ module Taken
       when Token::GIVEN
         parse_given
       when Token::THEN
-        parse_then
+        parse_assertion(Ast::Assertions::Then::Statement, Ast::Assertions::Then::AssertionSentence)
+      when Token::AND
+        parse_assertion(Ast::Assertions::And::Statement, Ast::Assertions::And::AssertionSentence)
       when Token::EOF
         Ast::EOF.new
       else
@@ -54,7 +57,7 @@ module Taken
       Ast::GivenDeclaration.new(spaces: spaces, keyword: keyword)
     end
 
-    def parse_then
+    def parse_assertion(statement_class, assertion_klass)
       spaces = current_token.white_spaces
 
       get_next # Then -> { or do
@@ -66,13 +69,13 @@ module Taken
           Ast::PlainSentence.new(tokens)
         elsif eq_count == 1
           idx = tokens.index{ |token| token.type == Token::EQ }
-          Ast::Assertions::Then::AssertionSentence.new(left: tokens[0...idx], right: tokens[idx+1..-1])
+          assertion_klass.new(left: tokens[0...idx], right: tokens[idx+1..-1])
         else
-          raise "Cannot parse then statement with more than two == tokens. got: #{eq_count}"
+          raise "Cannot parse assertion statement with more than two == tokens. got: #{eq_count}"
         end
       end
 
-      Ast::Assertions::Then::Statement.new(spaces: spaces, block: block)
+      statement_class.new(spaces: spaces, block: block)
     end
 
     def parse_block
