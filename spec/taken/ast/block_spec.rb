@@ -38,7 +38,7 @@ RSpec.describe Taken::Ast::Block do
             let(:another_sentence_space) { "\n" }
 
             it 'multiplies {} into do end' do
-              expect(subject).to eq "do\noriginal\nanother\nend"
+              expect(subject).to eq " do\noriginal\nanother\nend"
             end
           end
 
@@ -46,7 +46,7 @@ RSpec.describe Taken::Ast::Block do
             let(:another_sentence_space) { '' }
 
             it 'multiplies {} into do end' do
-              expect(subject).to eq "do\noriginal\nanother\nend"
+              expect(subject).to eq " do\noriginal\nanother\nend"
             end
           end
         end
@@ -58,7 +58,7 @@ RSpec.describe Taken::Ast::Block do
             let(:another_sentence_space) { "\n" }
 
             it 'multiplies {} into do end' do
-              expect(subject).to eq "do\noriginal\nanother\nend"
+              expect(subject).to eq " do\noriginal\nanother\nend"
             end
           end
 
@@ -66,7 +66,7 @@ RSpec.describe Taken::Ast::Block do
             let(:another_sentence_space) { '' }
 
             it 'multiplies {} into do end' do
-              expect(subject).to eq "do\noriginal\nanother\nend"
+              expect(subject).to eq " do\noriginal\nanother\nend"
             end
           end
         end
@@ -82,7 +82,7 @@ RSpec.describe Taken::Ast::Block do
             let(:another_sentence_space) { "\n" }
 
             it 'multiplies {} into do end' do
-              expect(subject).to eq "do\noriginal\nanother\nend"
+              expect(subject).to eq " do\noriginal\nanother\nend"
             end
           end
 
@@ -90,7 +90,7 @@ RSpec.describe Taken::Ast::Block do
             let(:another_sentence_space) { '' }
 
             it 'multiplies {} into do end' do
-              expect(subject).to eq "do\noriginal\nanother\nend"
+              expect(subject).to eq " do\noriginal\nanother\nend"
             end
           end
         end
@@ -102,7 +102,7 @@ RSpec.describe Taken::Ast::Block do
             let(:another_sentence_space) { "\n" }
 
             it 'multiplies {} into do end' do
-              expect(subject).to eq "do\noriginal\nanother\nend"
+              expect(subject).to eq " do\noriginal\nanother\nend"
             end
           end
 
@@ -110,7 +110,7 @@ RSpec.describe Taken::Ast::Block do
             let(:another_sentence_space) { '' }
 
             it 'multiplies {} into do end' do
-              expect(subject).to eq "do\noriginal\nanother\nend"
+              expect(subject).to eq " do\noriginal\nanother\nend"
             end
           end
         end
@@ -125,7 +125,7 @@ RSpec.describe Taken::Ast::Block do
       let(:another_sentence_space) { "\n" }
 
       it 'multiplies {} into do end' do
-        expect(subject).to eq "do\noriginal\nanother\nend"
+        expect(subject).to eq " do\noriginal\nanother\nend"
       end
     end
   end

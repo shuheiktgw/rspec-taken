@@ -13,6 +13,11 @@ module Taken
             @block = block
           end
 
+          def merge_and!(and_statement)
+            @block = block.merge_sentences(and_statement.merged_sentences)
+            self
+          end
+
           def to_r
             "#{spaces}it#{block.to_r}"
           end

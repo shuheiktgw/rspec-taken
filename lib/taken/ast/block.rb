@@ -31,7 +31,7 @@ module Taken
       private
 
       def multiply_block
-        @opener = Token.new(type: Token::DO, literal: 'do').attach_white_spaces opener.white_spaces
+        @opener = Token.new(type: Token::DO, literal: 'do').attach_white_spaces opener.white_spaces + ' '
         @closer = Token.new(type: Token::END_KEY, literal: 'end').attach_white_spaces closer.white_spaces
 
         @closer.add_new_line! unless @closer.newline?
