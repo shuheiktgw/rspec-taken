@@ -22,6 +22,10 @@ module Taken
         tokens.first.add_new_line! unless newline?
         self
       end
+
+      def ==(other)
+        tokens.map.with_index{ |t, i| t == other.tokens[i] }.all?
+      end
     end
   end
 end
