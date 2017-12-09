@@ -22,6 +22,7 @@ module Taken
     END_KEY = 'END'
     WHEN = 'WHEN'
     THEN = 'THEN'
+    AND = 'AND'
     GIVEN = 'GIVEN'
     GIVEN_BANG = 'GIVEN!'
 
@@ -30,6 +31,7 @@ module Taken
       end: END_KEY,
       When: WHEN,
       Then: THEN,
+      And: AND,
       Given: GIVEN,
       Given!: GIVEN_BANG
     }
