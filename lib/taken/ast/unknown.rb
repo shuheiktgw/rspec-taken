@@ -10,6 +10,10 @@ module Taken
         @token = token
       end
 
+      def generate_code(_generator)
+        self.to_r
+      end
+
       def to_r
         token.to_s
       end

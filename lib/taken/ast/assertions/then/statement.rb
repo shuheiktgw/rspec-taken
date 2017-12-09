@@ -13,7 +13,17 @@ module Taken
             @block = block
           end
 
+          def generate_code(generator)
+            while generator.next_ast.is_a? Ast::Assertions::And::Statement
+              generator.get_next
+              self.merge_and!(generator.current_ast)
+            end
+
+            self.to_r
+          end
+
           def merge_and!(and_statement)
+            binding.pry
             @block = block.merge_sentences(and_statement.merged_sentences)
             self
           end

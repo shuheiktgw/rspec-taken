@@ -8,14 +8,15 @@ module Taken
     def initialize(parser, writer)
       @parser = parser
       @writer = writer
+
+      get_next
+      get_next
     end
 
     def execute
-      parsed = parser.parse_next
-
-      until parsed.eof?
-        writer.write(parsed.to_r)
-        parsed = parser.parse_next
+      until current_ast.eof?
+        writer.write(current_ast.generate_code self)
+        get_next
       end
 
       writer.close
@@ -23,6 +24,19 @@ module Taken
       Rufo::Command.run([writer.new_file_path])
     rescue SystemExit => e
       puts "Format Completed. status :#{e.status}"
+    end
+
+    def current_ast
+      @current_ast
+    end
+
+    def next_ast
+      @next_ast
+    end
+
+    def get_next
+      @current_ast = @next_ast
+      @next_ast = parser.parse_next
     end
   end
 end

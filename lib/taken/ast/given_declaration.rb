@@ -11,6 +11,10 @@ module Taken
         @keyword = keyword
       end
 
+      def generate_code(_generator)
+        self.to_r
+      end
+
       def to_r
         "#{spaces}let(#{keyword})"
       end

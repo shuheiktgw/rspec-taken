@@ -21,7 +21,11 @@ module Taken
         multiply_block
 
         new_lined_another_sentences = another_sentences.map.with_index do |as, i|
-          as.add_new_line! if i == 0
+          if i == 0
+            as.add_new_line!
+          else
+            as
+          end
         end
 
         @sentences = @sentences + new_lined_another_sentences

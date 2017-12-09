@@ -20,6 +20,12 @@ RSpec.describe Stack do
       stack.depth == 0
       stack.depth == 0
     }
+    And {
+      stack.depth == 1
+      stack.depth == 1
+      stack.depth == 1
+      stack.depth == 1
+    }
 
     context "when pushing" do
       When { stack.push(:an_item) }

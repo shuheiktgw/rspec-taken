@@ -10,6 +10,10 @@ module Taken
         @tokens = tokens
       end
 
+      def generate_code(_generator)
+        self.to_r
+      end
+
       def to_r
         "#{tokens.map(&:to_s).join}"
       end
