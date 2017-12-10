@@ -23,7 +23,6 @@ module Taken
           end
 
           def merge_and!(and_statement)
-            binding.pry
             @block = block.merge_sentences(and_statement.merged_sentences)
             self
           end

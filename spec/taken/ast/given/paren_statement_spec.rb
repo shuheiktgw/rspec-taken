@@ -1,10 +1,10 @@
 require 'spec_helper'
-require 'taken/ast/given_declaration'
+require 'taken/ast/given/paren_statement'
 
-RSpec.describe Taken::Ast::GivenDeclaration do
+RSpec.describe Taken::Ast::Given::ParenStatement do
 
   describe 'to_r' do
-    subject { Taken::Ast::GivenDeclaration.new(spaces: spaces, keyword: keyword).to_r }
+    subject { Taken::Ast::Given::ParenStatement.new(spaces: spaces, keyword: keyword).to_r }
 
     context 'no spaces' do
       let(:spaces) { '' }

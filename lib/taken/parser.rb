@@ -1,5 +1,4 @@
 require 'taken/token'
-require 'taken/ast/given_declaration'
 require 'taken/ast/unknown'
 require 'taken/ast/eof'
 require 'taken/ast/block'
@@ -24,7 +23,13 @@ module Taken
     def parse_next
       parsed = case current_token.type
       when Token::GIVEN
-        parse_given
+        if next_token.type == Token::LPAREN # Given(:key) { some_value }
+          parse_paren_given
+        elsif next_token.type == Token::LBRACE # Given { some_method }
+          parse_brace_given
+        else
+          Ast::Unknown.new(token: current_token)
+        end
       when Token::THEN
         parse_assertion(Ast::Assertions::Then::Statement, Ast::Assertions::Then::AssertionSentence)
       when Token::AND
@@ -41,7 +46,7 @@ module Taken
 
     private
 
-    def parse_given
+    def parse_paren_given
       spaces = current_token.white_spaces
 
       get_next # Given -> (
@@ -54,7 +59,11 @@ module Taken
         get_next
       end
 
-      Ast::GivenDeclaration.new(spaces: spaces, keyword: keyword)
+      Ast::Given::ParenStatement.new(spaces: spaces, keyword: keyword)
+    end
+
+    def parse_brace_given
+
     end
 
     def parse_assertion(statement_class, assertion_klass)
