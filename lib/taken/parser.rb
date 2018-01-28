@@ -77,7 +77,7 @@ module Taken
     def parse_assertion(statement_class, assertion_klass)
       spaces = current_token.white_spaces
 
-      get_next # Then -> { or do
+      expect_next(Token::LBRACE, Token::DO) # Then -> { or do
 
       block = parse_block do |tokens|
         eq_count = tokens.count {|t| t.type == Token::EQ }
