@@ -5,11 +5,11 @@ module Taken
     module Given
       class BraceStatement < Ast::AstBase
 
-        attr_reader :spaces, :keyword
+        attr_reader :spaces, :block
 
-        def initialize(spaces:, keyword:)
+        def initialize(spaces:, block:)
           @spaces = spaces
-          @keyword = keyword
+          @block = block
         end
 
         def generate_code(_generator)
@@ -17,7 +17,7 @@ module Taken
         end
 
         def to_r
-          "#{spaces}let(#{keyword})"
+          "#{spaces}before#{block.to_r}"
         end
       end
     end

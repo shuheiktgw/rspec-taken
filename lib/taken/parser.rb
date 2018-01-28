@@ -11,6 +11,8 @@ require 'taken/ast/assertions//and/assertion_sentence'
 module Taken
   class Parser
 
+    class ParseError < StandardError; end
+
     attr_reader :lexer, :current_token, :next_token
 
     def initialize(lexer)
@@ -23,9 +25,9 @@ module Taken
     def parse_next
       parsed = case current_token.type
       when Token::GIVEN
-        if next_token.type == Token::LPAREN # Given(:key) { some_value }
+        if next_token.type == Token::LPAREN # Given(:key) { some_value } / Given(:key) do ~ end
           parse_paren_given
-        elsif next_token.type == Token::LBRACE # Given { some_method }
+        elsif next_token.type == Token::LBRACE || next_token.type == Token::DO # Given { some_method } / Given do ~ end
           parse_brace_given
         else
           Ast::Unknown.new(token: current_token)
@@ -49,8 +51,8 @@ module Taken
     def parse_paren_given
       spaces = current_token.white_spaces
 
-      get_next # Given -> (
-      get_next # (     -> : or ' or "
+      expect_next(Token::LPAREN) # Given -> (
+      expect_next(Token::COLON, Token::SIN) # (     -> : or ' or "
 
       keyword = ''
 
@@ -63,6 +65,11 @@ module Taken
     end
 
     def parse_brace_given
+      spaces = current_token.white_spaces
+
+      get_next # Given -> { / do
+
+      block = parse_block { |ts| ts }.flatten
 
 
     end
@@ -118,6 +125,15 @@ module Taken
 
     def form_then_sentence(tokens)
 
+    end
+
+    def expect_next(*expected)
+      types = expected.map(&:type)
+      if types.include?(@next_token.type)
+        get_next
+      else
+        raise ParseError, "Expected next token to be #{types.join(' or ')}. Got: #{@next_token.type}"
+      end
     end
 
     def get_next
