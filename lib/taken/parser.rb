@@ -52,7 +52,7 @@ module Taken
       spaces = current_token.white_spaces
 
       expect_next(Token::LPAREN) # Given -> (
-      expect_next(Token::COLON, Token::SIN) # (     -> : or ' or "
+      expect_next(Token::COLON, Token::SINGLE_QUOTE, Token::DOUBLE_QUOTE) # (     -> : or ' or "
 
       keyword = ''
 
@@ -128,11 +128,10 @@ module Taken
     end
 
     def expect_next(*expected)
-      types = expected.map(&:type)
-      if types.include?(@next_token.type)
+      if expected.include?(@next_token.type)
         get_next
       else
-        raise ParseError, "Expected next token to be #{types.join(' or ')}. Got: #{@next_token.type}"
+        raise ParseError, "Expected next token to be #{expected.join(' or ')}. Got: #{@next_token.type}"
       end
     end
 
