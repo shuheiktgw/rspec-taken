@@ -67,11 +67,11 @@ module Taken
     def parse_brace_given
       spaces = current_token.white_spaces
 
-      get_next # Given -> { / do
+      expect_next(Token::LBRACE, Token::DO) # Given -> { / do
 
       block = parse_block { |tokens| Ast::PlainSentence.new(tokens) }
 
-
+      Ast::Given::BraceStatement.new(spaces: spaces, block: block)
     end
 
     def parse_assertion(statement_class, assertion_klass)

@@ -16,7 +16,7 @@ RSpec.describe Taken::Parser do
     subject(:parsed) {parser.parse_next}
     let(:file) {StringIO.new(content, 'r')}
 
-    context 'when Given is given' do
+    context 'when Given with lparen is given' do
       let(:content) {"Given(#{key}) { [:second_item, :top_item] }"}
 
       context 'key is symnol' do
@@ -79,6 +79,35 @@ RSpec.describe Taken::Parser do
           it 'parsed Unknown {' do
             expect(parsed.to_r).to eq ' {'
           end
+        end
+      end
+    end
+
+    context 'when Given without lparen is given' do
+      context 'when block is {}' do
+        let(:content) {"Given { do_something! }"}
+
+        it 'parses given statement' do
+          expect(parsed.to_r).to eq 'before { do_something! }'
+        end
+      end
+
+      context 'when block is do end' do
+        let(:content) do
+          '''
+Given do
+  do_something!(arg)
+  do_something!(arg)
+end'''
+
+        end
+
+        it 'parses given statement' do
+          expect(parsed.to_r).to eq '''
+before do
+  do_something!(arg)
+  do_something!(arg)
+end'''
         end
       end
     end
