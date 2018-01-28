@@ -37,6 +37,10 @@ module Taken
         Token.new(type: Token::RBRACE, literal: '}')
       when ':'
         Token.new(type: Token::COLON, literal: ':')
+      when "'"
+        Token.new(type: Token::SINGLE_QUOTE, literal: "'")
+      when '"'
+        Token.new(type: Token::DOUBLE_QUOTE, literal: '"')
       when 'EOF'
         Token.new(type: Token::EOF, literal: 'EOF')
       else

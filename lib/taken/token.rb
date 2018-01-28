@@ -16,6 +16,8 @@ module Taken
     LBRACE = '{'
     RBRACE = '}'
     COLON = ':'
+    SINGLE_QUOTE = "'"
+    DOUBLE_QUOTE = '"'
 
     # Keywords
     DO = 'DO'

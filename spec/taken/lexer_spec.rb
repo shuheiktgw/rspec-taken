@@ -66,6 +66,18 @@ RSpec.describe Taken::Lexer do
       it_behaves_like 'assert lexing', Taken::Token::COLON, ':', ''
     end
 
+    context "' is given" do
+      let(:content) { "'" }
+
+      it_behaves_like 'assert lexing', Taken::Token::SINGLE_QUOTE, "'", ''
+    end
+
+    context '" is given' do
+      let(:content) { '"' }
+
+      it_behaves_like 'assert lexing', Taken::Token::DOUBLE_QUOTE, '"', ''
+    end
+
     context 'EOF is given' do
       let(:content) { '' }
 
