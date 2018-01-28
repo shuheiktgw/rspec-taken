@@ -69,7 +69,7 @@ module Taken
 
       get_next # Given -> { / do
 
-      block = parse_block { |ts| ts }.flatten
+      block = parse_block { |tokens| Ast::PlainSentence.new(tokens) }
 
 
     end
