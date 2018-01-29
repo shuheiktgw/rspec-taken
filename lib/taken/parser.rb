@@ -26,14 +26,14 @@ module Taken
       parsed = case current_token.type
       when Token::GIVEN
         if next_token.type == Token::LPAREN # Given(:key) { some_value } / Given(:key) do ~ end
-          parse_paren_given
+          parse_simple_given(Ast::Given::ParenStatement)
         elsif next_token.type == Token::LBRACE || next_token.type == Token::DO # Given { some_method } / Given do ~ end
           parse_brace_given
         else
           Ast::Unknown.new(token: current_token)
         end
       when Token::GIVEN_BANG
-        parse_bang_given
+        parse_simple_given(Ast::Given::ParenStatement)
       when Token::THEN
         parse_assertion(Ast::Assertions::Then::Statement, Ast::Assertions::Then::AssertionSentence)
       when Token::AND
@@ -50,8 +50,20 @@ module Taken
 
     private
 
-    def parse_paren_given
-      parse_simple_given(Ast::Given::ParenStatement)
+    def parse_simple_given(klass)
+      spaces = current_token.white_spaces
+
+      expect_next(Token::LPAREN) # Given / Given! -> (
+      expect_next(Token::COLON, Token::SINGLE_QUOTE, Token::DOUBLE_QUOTE) # (     -> : or ' or "
+
+      keyword = ''
+
+      while current_token.type != Token::RPAREN
+        keyword << current_token.literal
+        get_next
+      end
+
+      klass.new(spaces: spaces, keyword: keyword)
     end
 
     def parse_brace_given
@@ -62,10 +74,6 @@ module Taken
       block = parse_block { |tokens| Ast::PlainSentence.new(tokens) }
 
       Ast::Given::BraceStatement.new(spaces: spaces, block: block)
-    end
-
-    def parse_bang_given
-      parse_simple_given(Ast::Given::ParenStatement)
     end
 
     def parse_assertion(statement_class, assertion_klass)
@@ -115,22 +123,6 @@ module Taken
       end
 
       yield tokens
-    end
-
-    def parse_simple_given(klass)
-      spaces = current_token.white_spaces
-
-      expect_next(Token::LPAREN) # Given / Given! -> (
-      expect_next(Token::COLON, Token::SINGLE_QUOTE, Token::DOUBLE_QUOTE) # (     -> : or ' or "
-
-      keyword = ''
-
-      while current_token.type != Token::RPAREN
-        keyword << current_token.literal
-        get_next
-      end
-
-      klass.new(spaces: spaces, keyword: keyword)
     end
 
     def expect_next(*expected)
