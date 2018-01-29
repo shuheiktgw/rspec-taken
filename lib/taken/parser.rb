@@ -32,6 +32,8 @@ module Taken
         else
           Ast::Unknown.new(token: current_token)
         end
+      when Token::GIVEN_BANG
+        parse_bang_given
       when Token::THEN
         parse_assertion(Ast::Assertions::Then::Statement, Ast::Assertions::Then::AssertionSentence)
       when Token::AND
@@ -49,19 +51,7 @@ module Taken
     private
 
     def parse_paren_given
-      spaces = current_token.white_spaces
-
-      expect_next(Token::LPAREN) # Given -> (
-      expect_next(Token::COLON, Token::SINGLE_QUOTE, Token::DOUBLE_QUOTE) # (     -> : or ' or "
-
-      keyword = ''
-
-      while current_token.type != Token::RPAREN
-        keyword << current_token.literal
-        get_next
-      end
-
-      Ast::Given::ParenStatement.new(spaces: spaces, keyword: keyword)
+      parse_simple_given(Ast::Given::ParenStatement)
     end
 
     def parse_brace_given
@@ -72,6 +62,10 @@ module Taken
       block = parse_block { |tokens| Ast::PlainSentence.new(tokens) }
 
       Ast::Given::BraceStatement.new(spaces: spaces, block: block)
+    end
+
+    def parse_bang_given
+      parse_simple_given(Ast::Given::ParenStatement)
     end
 
     def parse_assertion(statement_class, assertion_klass)
@@ -123,8 +117,20 @@ module Taken
       yield tokens
     end
 
-    def form_then_sentence(tokens)
+    def parse_simple_given(klass)
+      spaces = current_token.white_spaces
 
+      expect_next(Token::LPAREN) # Given / Given! -> (
+      expect_next(Token::COLON, Token::SINGLE_QUOTE, Token::DOUBLE_QUOTE) # (     -> : or ' or "
+
+      keyword = ''
+
+      while current_token.type != Token::RPAREN
+        keyword << current_token.literal
+        get_next
+      end
+
+      klass.new(spaces: spaces, keyword: keyword)
     end
 
     def expect_next(*expected)
