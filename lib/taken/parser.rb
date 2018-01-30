@@ -33,7 +33,7 @@ module Taken
           Ast::Unknown.new(token: current_token)
         end
       when Token::GIVEN_BANG
-        parse_simple_given(Ast::Given::ParenStatement)
+        parse_simple_given(Ast::Given::BangStatement)
       when Token::THEN
         parse_assertion(Ast::Assertions::Then::Statement, Ast::Assertions::Then::AssertionSentence)
       when Token::AND

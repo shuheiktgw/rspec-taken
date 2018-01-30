@@ -112,6 +112,53 @@ end'''
       end
     end
 
+    context 'when Given! is given' do
+      context 'when block is {}' do
+        let(:content) {"Given!(:test) { do_something! }"}
+
+        context 'parsed once' do
+          it 'parses given statement' do
+            expect(parsed.to_r).to eq 'let!(:test)'
+          end
+        end
+
+        context 'parsed twice' do
+          before do
+            parser.parse_next
+          end
+
+          it 'parsed Unknown {' do
+            expect(parsed.to_r).to eq ' {'
+          end
+        end
+      end
+
+      context 'when block is do end' do
+        let(:content) do
+          '''Given!(:test) do
+  do_something!
+end
+          '''
+        end
+
+        context 'parsed once' do
+          it 'parses given statement' do
+            expect(parsed.to_r).to eq 'let!(:test)'
+          end
+        end
+
+        context 'parsed twice' do
+          before do
+            parser.parse_next
+          end
+
+          it 'parsed Unknown {' do
+            expect(parsed.to_r).to eq ' do'
+          end
+        end
+      end
+    end
+
     context 'when Then is given' do
       context 'when block with brackets' do
         context 'single sentence' do
