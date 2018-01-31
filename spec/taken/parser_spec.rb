@@ -206,6 +206,35 @@ end
       end
     end
 
+    context 'when When without lparen is given' do
+      context 'when block is {}' do
+        let(:content) {"When { do_something! }"}
+
+        it 'parses given statement' do
+          expect(parsed.to_r).to eq 'before { do_something! }'
+        end
+      end
+
+      context 'when block is do end' do
+        let(:content) do
+          '''
+When do
+  do_something!(arg)
+  do_something!(arg)
+end'''
+
+        end
+
+        it 'parses given statement' do
+          expect(parsed.to_r).to eq '''
+before do
+  do_something!(arg)
+  do_something!(arg)
+end'''
+        end
+      end
+    end
+
     context 'when Then is given' do
       context 'when block with brackets' do
         context 'single sentence' do
