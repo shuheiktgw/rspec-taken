@@ -3,7 +3,6 @@ require 'taken/ast/unknown'
 require 'taken/ast/eof'
 require 'taken/ast/block'
 require 'taken/ast/plain_sentence'
-require 'taken/ast/when/brace_statement'
 require 'taken/ast/assertions/then/statement'
 require 'taken/ast/assertions//then/assertion_sentence'
 require 'taken/ast/assertions/and/statement'
@@ -28,7 +27,7 @@ module Taken
         if next_token.type == Token::LPAREN # Given(:key) { some_value } / Given(:key) do ~ end
           parse_let(Ast::Given::ParenStatement)
         elsif next_token.type == Token::LBRACE || next_token.type == Token::DO # Given { some_method } / Given do ~ end
-          parse_brace_brace(Ast::Given::BraceStatement)
+          parse_before
         else
           Ast::Unknown.new(token: current_token)
         end
@@ -36,7 +35,7 @@ module Taken
         if next_token.type == Token::LPAREN # When(:key) { some_value } / When(:key) do ~ end
           parse_let(Ast::LetBangStatement)
         elsif next_token.type == Token::LBRACE || next_token.type == Token::DO # Given { some_method } / Given do ~ end
-          parse_brace_brace(Ast::When::BraceStatement)
+          parse_before
         else
           Ast::Unknown.new(token: current_token)
         end
@@ -74,14 +73,14 @@ module Taken
       klass.new(spaces: spaces, keyword: keyword)
     end
 
-    def parse_brace_brace(klass)
+    def parse_before
       spaces = current_token.white_spaces
 
       expect_next(Token::LBRACE, Token::DO) # Given -> { / do
 
       block = parse_block { |tokens| Ast::PlainSentence.new(tokens) }
 
-      klass.new(spaces: spaces, block: block)
+      Ast::BeforeStatement.new(spaces: spaces, block: block)
     end
 
     def parse_assertion(statement_class, assertion_klass)

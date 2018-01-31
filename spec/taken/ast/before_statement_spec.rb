@@ -1,10 +1,10 @@
 require 'spec_helper'
-require 'taken/ast/given/brace_statement'
+require 'taken/ast/before_statement'
 
-RSpec.describe Taken::Ast::Given::BraceStatement do
+RSpec.describe Taken::Ast::BeforeStatement do
 
   describe 'to_r' do
-    subject { Taken::Ast::Given::BraceStatement.new(spaces: ' ', block: block).to_r }
+    subject { Taken::Ast::BeforeStatement.new(spaces: ' ', block: block).to_r }
 
     let(:block) do
       Taken::Ast::Block.new(
