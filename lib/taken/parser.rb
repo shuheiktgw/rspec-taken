@@ -26,7 +26,7 @@ module Taken
       parsed = case current_token.type
       when Token::GIVEN
         if next_token.type == Token::LPAREN # Given(:key) { some_value } / Given(:key) do ~ end
-          parse_simple_given(Ast::Given::ParenStatement)
+          parse_let(Ast::Given::ParenStatement)
         elsif next_token.type == Token::LBRACE || next_token.type == Token::DO # Given { some_method } / Given do ~ end
           parse_brace_brace(Ast::Given::BraceStatement)
         else
@@ -34,14 +34,14 @@ module Taken
         end
       when Token::WHEN
         if next_token.type == Token::LPAREN # When(:key) { some_value } / When(:key) do ~ end
-          parse_simple_given(Ast::When::ParenStatement)
+          parse_let(Ast::LetBangStatement)
         elsif next_token.type == Token::LBRACE || next_token.type == Token::DO # Given { some_method } / Given do ~ end
           parse_brace_brace(Ast::When::BraceStatement)
         else
           Ast::Unknown.new(token: current_token)
         end
       when Token::GIVEN_BANG
-        parse_simple_given(Ast::Given::BangStatement)
+        parse_let(Ast::LetBangStatement)
       when Token::THEN
         parse_assertion(Ast::Assertions::Then::Statement, Ast::Assertions::Then::AssertionSentence)
       when Token::AND
@@ -58,7 +58,7 @@ module Taken
 
     private
 
-    def parse_simple_given(klass)
+    def parse_let(klass)
       spaces = current_token.white_spaces
 
       expect_next(Token::LPAREN) # Given / Given! -> (
