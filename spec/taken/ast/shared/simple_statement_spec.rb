@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.shared_examples 'simple Given statements' do |prefix|
+RSpec.shared_examples 'simple Given/When statements' do |prefix|
   context 'no spaces' do
     let(:spaces) { '' }
 

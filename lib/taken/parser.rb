@@ -21,7 +21,6 @@ module Taken
       get_next
     end
 
-    # Memo: When, Given! is still until encounters unclosed end keyword
     def parse_next
       parsed = case current_token.type
       when Token::GIVEN
@@ -29,6 +28,12 @@ module Taken
           parse_simple_given(Ast::Given::ParenStatement)
         elsif next_token.type == Token::LBRACE || next_token.type == Token::DO # Given { some_method } / Given do ~ end
           parse_brace_given
+        else
+          Ast::Unknown.new(token: current_token)
+        end
+      when Token::WHEN
+        if next_token.type == Token::LPAREN # When(:key) { some_value } / When(:key) do ~ end
+          parse_simple_given(Ast::When::ParenStatement)
         else
           Ast::Unknown.new(token: current_token)
         end
