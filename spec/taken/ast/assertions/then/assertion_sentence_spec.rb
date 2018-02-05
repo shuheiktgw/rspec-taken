@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'taken/token'
-require 'taken/ast/assertions/then/assertion_sentence'
+require 'taken/ast/assertions/assertion_sentence'
 
 RSpec.describe Taken::Ast::Assertions::Then::AssertionSentence do
   describe 'to_r' do

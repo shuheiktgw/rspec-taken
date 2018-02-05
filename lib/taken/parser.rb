@@ -7,9 +7,8 @@ require 'taken/ast/let_bang_statement'
 require 'taken/ast/before_statement'
 require 'taken/ast/given/paren_statement'
 require 'taken/ast/assertions/then/statement'
-require 'taken/ast/assertions//then/assertion_sentence'
+require 'taken/ast/assertions/assertion_sentence'
 require 'taken/ast/assertions/and/statement'
-require 'taken/ast/assertions//and/assertion_sentence'
 
 module Taken
   class Parser
