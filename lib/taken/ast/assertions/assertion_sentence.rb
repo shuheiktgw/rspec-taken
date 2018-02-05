@@ -12,14 +12,14 @@ module Taken
         end
 
         def to_r
-          AssertionTranspiler.transpile(assertion_sentence)
+          tokens.first.white_spaces + AssertionTranspiler.transpile(assertion_sentence)
         end
 
         def newline?
           tokens.first.newline?
         end
 
-        # Ignore the first newline to avoid like the case below.
+        # Ignore the first newline or space to avoid like the case below.
         # \n Then { something == something } => expect(\n something).to eq(something)
         def assertion_sentence
           tokens.map.with_index do |t, i|
