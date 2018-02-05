@@ -2,7 +2,7 @@ require 'rspec/given'
 require 'spec_helper'
 require_relative '../given_specs/stack'
 
-RSpec.describe Stack do
+describe Stack do
   def stack_with(initial_contents)
     stack = Stack.new
     initial_contents.each do |item| stack.push(item) end
@@ -14,29 +14,18 @@ RSpec.describe Stack do
 
   context "with no items" do
     Given(:initial_contents) { [] }
-    Then {
-      stack.depth == 0
-      stack.depth == 0
-      stack.depth == 0
-      stack.depth == 0
-    }
-    And {
-      stack.depth == 1
-      stack.depth == 1
-      stack.depth == 1
-      stack.depth == 1
-    }
+    Then { stack.depth == 0 }
 
     context "when pushing" do
       When { stack.push(:an_item) }
 
       Then { stack.depth == 1 }
       Then { stack.top == :an_item }
-end
+    end
 
-context "when popping" do
-When(:result) { stack.pop }
-Then { result == Failure(Stack::UnderflowError, /empty/) }
+    context "when popping" do
+      When(:result) { stack.pop }
+      Then { result == Failure(Stack::UnderflowError, /empty/) }
     end
   end
 

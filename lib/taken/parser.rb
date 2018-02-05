@@ -3,6 +3,9 @@ require 'taken/ast/unknown'
 require 'taken/ast/eof'
 require 'taken/ast/block'
 require 'taken/ast/plain_sentence'
+require 'taken/ast/let_bang_statement'
+require 'taken/ast/before_statement'
+require 'taken/ast/given/paren_statement'
 require 'taken/ast/assertions/then/statement'
 require 'taken/ast/assertions//then/assertion_sentence'
 require 'taken/ast/assertions/and/statement'
@@ -78,7 +81,7 @@ module Taken
 
       expect_next(Token::LBRACE, Token::DO) # Given -> { / do
 
-      block = parse_block { |tokens| Ast::PlainSentence.new(tokens) }
+      block = parse_block { |tokens, _is_last| Ast::PlainSentence.new(tokens) }
 
       Ast::BeforeStatement.new(spaces: spaces, block: block)
     end
@@ -88,7 +91,7 @@ module Taken
 
       expect_next(Token::LBRACE, Token::DO) # Then -> { or do
 
-      block = parse_block do |tokens|
+      block = parse_block do |tokens, is_last|
         eq_count = tokens.count {|t| t.type == Token::EQ }
 
         if eq_count == 0
@@ -111,8 +114,8 @@ module Taken
 
       sentences = []
       until opener.block_closer?(current_token)
-        sentences << parse_block_sentence(opener) do |tokens|
-          yield tokens
+        sentences << parse_block_sentence(opener) do |tokens, is_last|
+          yield tokens, is_last
         end
       end
 
@@ -129,7 +132,7 @@ module Taken
         get_next
       end
 
-      yield tokens
+      yield tokens, opener.block_closer?(current_token)
     end
 
     def expect_next(*expected)
