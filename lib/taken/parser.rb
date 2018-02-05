@@ -44,9 +44,9 @@ module Taken
       when Token::GIVEN_BANG
         parse_let(Ast::LetBangStatement)
       when Token::THEN
-        parse_assertion(Ast::Assertions::Then::Statement, Ast::Assertions::Then::AssertionSentence)
+        parse_assertion(Ast::Assertions::Then::Statement)
       when Token::AND
-        parse_assertion(Ast::Assertions::And::Statement, Ast::Assertions::And::AssertionSentence)
+        parse_assertion(Ast::Assertions::And::Statement)
       when Token::EOF
         Ast::EOF.new
       else
@@ -85,21 +85,16 @@ module Taken
       Ast::BeforeStatement.new(spaces: spaces, block: block)
     end
 
-    def parse_assertion(statement_class, assertion_klass)
+    def parse_assertion(statement_class)
       spaces = current_token.white_spaces
 
       expect_next(Token::LBRACE, Token::DO) # Then -> { or do
 
       block = parse_block do |tokens, is_last|
-        eq_count = tokens.count {|t| t.type == Token::EQ }
-
-        if eq_count == 0
-          Ast::PlainSentence.new(tokens)
-        elsif eq_count == 1
-          idx = tokens.index{ |token| token.type == Token::EQ }
-          assertion_klass.new(left: tokens[0...idx], right: tokens[idx+1..-1])
+        if is_last
+          Ast::Assertions::AssertionSentence.new(tokens)
         else
-          raise "Cannot parse assertion statement with more than two == tokens. got: #{eq_count}"
+          Ast::PlainSentence.new(tokens)
         end
       end
 
