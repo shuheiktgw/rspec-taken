@@ -12,8 +12,17 @@ RSpec.describe Taken::AssertionTranspiler do
     end
 
     context 'failure sentence' do
-      let(:sentence) {' do_something == Failure(SomeError, /Some error occurred!/) '}
-      it { is_expected.to eq "expect{ do_something }.to raise_error(SomeError, 'Some error occurred!')" }
+      let(:sentence) {" do_something == Failure(SomeError, /#{message}/) "}
+
+      context 'empty message' do
+        let(:message) { 'empty' }
+        it { is_expected.to eq "expect{ do_something }.to raise_error(SomeError)" }
+      end
+
+      context 'not empty message' do
+        let(:message) { 'Some error occurred!' }
+        it { is_expected.to eq "expect{ do_something }.to raise_error(SomeError, 'Some error occurred!')" }
+      end
     end
   end
 end
