@@ -1,33 +1,19 @@
 require 'spec_helper'
-require 'taken/ast/before_statement'
+require 'taken/assertion_transpiler'
 
-RSpec.describe Taken::Ast::BeforeStatement do
+RSpec.describe Taken::AssertionTranspiler do
 
-  describe 'to_r' do
-    subject { Taken::Ast::BeforeStatement.new(spaces: ' ', block: block).to_r }
+  describe 'transpile' do
+    subject { Taken::AssertionTranspiler.transpile(sentence) }
 
-    let(:block) do
-      Taken::Ast::Block.new(
-        opener: opener,
-        sentences: sentences,
-        closer: closer
-      )
+    context 'normal == sentence' do
+      let(:sentence) {' 1 == 1 '}
+      it { is_expected.to eq 'expect(1).to eq(1)' }
     end
 
-    context '{} block' do
-      let(:sentences) { [Taken::Ast::PlainSentence.new([Taken::Token.new(type: Taken::Token::IDENT, literal: 'sentence')])] }
-      let(:opener) { Taken::Token.new(type: Taken::Token::LBRACE, literal: '{') }
-      let(:closer) { Taken::Token.new(type: Taken::Token::RBRACE, literal: '}', white_spaces: '') }
-
-      it { is_expected.to eq ' before{sentence}' }
-    end
-
-    context 'do end block' do
-      let(:sentences) { [Taken::Ast::PlainSentence.new([Taken::Token.new(type: Taken::Token::IDENT, literal: 'sentence', white_spaces: "\n")])] }
-      let(:opener) { Taken::Token.new(type: Taken::Token::DO, literal: 'do', white_spaces: ' ') }
-      let(:closer) { Taken::Token.new(type: Taken::Token::END_KEY, literal: 'end', white_spaces: "\n") }
-
-      it { is_expected.to eq " before do\nsentence\nend" }
+    context 'failure sentence' do
+      let(:sentence) {' do_something == Failure(SomeError, /Some error occurred!/) '}
+      it { is_expected.to eq "expect{ do_something }.to raise_error(SomeError, 'Some error occurred!')" }
     end
   end
 end
