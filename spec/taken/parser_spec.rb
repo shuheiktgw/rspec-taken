@@ -266,7 +266,7 @@ end'''
             context 'without plain sentences' do
               let(:content) do
                 '' 'Then{
-  stack.depth == 0
+  do_something
   stack.count == 0
   stack.sound == 0
 }' ''
@@ -274,8 +274,8 @@ end'''
 
               it 'parses then statement' do
                 expect(parsed.to_r).to eq '' 'it{
-  expect(stack.depth).to eq(0)
-  expect(stack.count).to eq(0)
+  do_something
+  stack.count == 0
   expect(stack.sound).to eq(0)
 }' ''
               end
@@ -286,8 +286,6 @@ end'''
                 '' 'Then{
   stack.push 1
   stack.pop
-  stack.depth == 0
-  stack.count == 0
   stack.sound == 0
 }' ''
               end
@@ -296,8 +294,6 @@ end'''
                 expect(parsed.to_r).to eq '' 'it{
   stack.push 1
   stack.pop
-  expect(stack.depth).to eq(0)
-  expect(stack.count).to eq(0)
   expect(stack.sound).to eq(0)
 }' ''
               end
@@ -335,8 +331,8 @@ end'''
 
             it 'parses then statement' do
               expect(parsed.to_r).to eq '' '  it do
-    expect(stack.depth).to eq(0)
-    expect(stack.count).to eq(0)
+    stack.depth == 0
+    stack.count == 0
     expect(stack.sound).to eq(0)
   end' ''
             end
