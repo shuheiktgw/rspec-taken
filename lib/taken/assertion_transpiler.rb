@@ -7,10 +7,10 @@ class Taken::AssertionTranspiler
       when /^\s*expect.+$/
         sentence
       # do_something == Failure(SomeError, /message/) => expect{ do_something }.to raise_error(SomeError, message)
-      when /^\s*(.+)\s*==\s*Failure\(\s*([A-Za-z]+)\s*,\s*(.+)\s*\)\s*$/
+      when /^\s*(.+)\s*==\s*Failure\(\s*([A-Za-z:]+)\s*,\s*(.+)\s*\)\s*$/
         "expect{ #{ cleanup_sentence $1 } }.to raise_error(#{ cleanup_sentence $2 }, #{ cleanup_sentence $3 })"
       # do_something == Failure SomeError, /message/ => expect{ do_something }.to raise_error(SomeError, message)
-      when /^\s*(.+)\s*==\s*Failure\s*([A-Za-z]+)\s*,\s*(.+)\s*$/
+      when /^\s*(.+)\s*==\s*Failure\s*([A-Za-z:]+)\s*,\s*(.+)\s*$/
         "expect{ #{ cleanup_sentence $1 } }.to raise_error(#{ cleanup_sentence $2 }, #{ cleanup_sentence $3 })"
       # nil.nil? => expect(nil).to be_nil?
       when /^(.+)\.([^.\s]+)\?\s*$/

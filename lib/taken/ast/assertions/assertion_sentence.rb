@@ -1,4 +1,5 @@
 require 'taken/ast/ast_base'
+require 'taken/assertion_transpiler'
 
 module Taken
   module Ast
