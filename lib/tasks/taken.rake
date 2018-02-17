@@ -1,6 +1,6 @@
 require 'taken'
 
-desc 'Transpile RSpec/Given files into Rspec.'
+desc 'Transpile RSpec/Given files into RSpec.'
 
 task :taken do
   ::Taken.taken(ARGV.last)
