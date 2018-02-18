@@ -1,5 +1,8 @@
 require: rubocop-rspec
 
+Naming/AccessorMethodName:
+  Enabled: false
+
 Lint/ImplicitStringConcatenation:
   Enabled: false
 
@@ -33,7 +36,19 @@ Metrics/PerceivedComplexity:
 Metrics/AbcSize:
   Enabled: false
 
-Naming/AccessorMethodName:
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/ContextWording:
   Enabled: false
 
 AllCops:

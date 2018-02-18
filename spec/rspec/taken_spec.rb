@@ -4,6 +4,7 @@ require 'taken'
 RSpec.describe Rspec::Taken do
   describe '#execute' do
     subject { Taken.taken(file_path) }
+
     let(:file_path) { File.expand_path(path, __FILE__) }
 
     context 'plain ruby file is specified' do

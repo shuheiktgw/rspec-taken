@@ -4,7 +4,7 @@ require 'taken/ast/assertions/and/statement'
 
 RSpec.describe Taken::Ast::Assertions::And::Statement do
   describe 'merged_sentences' do
-    subject { Taken::Ast::Assertions::And::Statement.new(spaces: '', block: block).merged_sentences }
+    subject { described_class.new(spaces: '', block: block).merged_sentences }
 
     let(:block) do
       Taken::Ast::Block.new(

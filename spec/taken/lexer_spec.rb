@@ -11,11 +11,12 @@ RSpec.describe Taken::Lexer do
     it { expect(token.white_spaces).to eq(spaces) }
   end
 
-  let(:lexer) { Taken::Lexer.new(reader) }
+  let(:lexer) { described_class.new(reader) }
   let(:reader) { Taken::Reader.new(file) }
 
   describe '#next_token' do
     subject(:token) { lexer.next_token }
+
     let(:file) { StringIO.new(content, 'r') }
 
     context '= is given' do

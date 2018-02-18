@@ -7,7 +7,7 @@ RSpec.describe Taken::Ast::Assertions::Then::Statement do
   describe '#merge_and!' do
     subject { then_statement.merge_and!(and_statement).to_r }
 
-    let(:then_statement) { Taken::Ast::Assertions::Then::Statement.new(spaces: '', block: then_block) }
+    let(:then_statement) { described_class.new(spaces: '', block: then_block) }
 
     let(:then_block) do
       Taken::Ast::Block.new(

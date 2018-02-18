@@ -7,12 +7,13 @@ require 'taken/token'
 require 'pry'
 
 RSpec.describe Taken::Parser do
-  let(:parser) { Taken::Parser.new(lexer) }
+  let(:parser) { described_class.new(lexer) }
   let(:lexer) { Taken::Lexer.new(reader) }
   let(:reader) { Taken::Reader.new(file) }
 
   describe '#next_token' do
     subject(:parsed) { parser.parse_next }
+
     let(:file) { StringIO.new(content, 'r') }
 
     context 'when Given with lparen is given' do

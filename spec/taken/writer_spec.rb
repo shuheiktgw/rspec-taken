@@ -3,7 +3,7 @@ require 'taken/writer'
 
 RSpec.describe Taken::Writer do
   describe 'initialize' do
-    subject { Taken::Writer.new(file_path: path) }
+    subject { described_class.new(file_path: path) }
 
     context 'when file name with "spec" is given' do
       let(:path) { File.expand_path('../../../lib/taken/spec_samples/test_outputs/test_spec.rb', __FILE__) }
@@ -27,7 +27,7 @@ RSpec.describe Taken::Writer do
   end
 
   describe '#write' do
-    let(:writer) { Taken::Writer.new(file_path: path) }
+    let(:writer) { described_class.new(file_path: path) }
     let(:path) { File.expand_path('../../../lib/taken/spec_samples/test_outputs/test_spec.rb', __FILE__) }
     let(:content) { 'this is a test sentence.' }
 

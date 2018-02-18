@@ -3,7 +3,8 @@ require 'taken/ast/eof'
 
 RSpec.describe Taken::Ast::PlainSentence do
   describe 'to_r' do
-    subject { Taken::Ast::PlainSentence.new(tokens).to_r }
+    subject { described_class.new(tokens).to_r }
+
     let(:tokens) do
       [
         Taken::Token.new(type: Taken::Token::IDENT, literal: 'stack').attach_white_spaces(" \n"),
@@ -16,7 +17,8 @@ RSpec.describe Taken::Ast::PlainSentence do
   end
 
   describe '==' do
-    subject { Taken::Ast::PlainSentence.new(tokens) == Taken::Ast::PlainSentence.new(other_tokens) }
+    subject { described_class.new(tokens) == described_class.new(other_tokens) }
+
     let(:tokens) do
       [
         Taken::Token.new(type: Taken::Token::IDENT, literal: 'stack').attach_white_spaces(" \n"),

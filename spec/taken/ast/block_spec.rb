@@ -6,7 +6,7 @@ RSpec.describe Taken::Ast::Block do
     subject { block.to_r }
 
     let(:block) do
-      Taken::Ast::Block.new(
+      described_class.new(
         opener: opener,
         sentences: original_sentences,
         closer: closer

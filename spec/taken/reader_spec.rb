@@ -10,7 +10,7 @@ RSpec.describe Taken::Reader do
     let(:content) { '12' }
 
     it 'reads char' do
-      lexer = Taken::Reader.new(file)
+      lexer = described_class.new(file)
       expect(lexer.current_char).to eq '1'
       expect(lexer.next_char).to eq '2'
 
