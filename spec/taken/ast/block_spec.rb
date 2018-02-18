@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'taken/ast/block'
 
 RSpec.describe Taken::Ast::Block do
-
   describe 'merge_sentences' do
     subject { block.to_r }
 

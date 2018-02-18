@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'taken/ast/before_statement'
 
 RSpec.describe Taken::Ast::BeforeStatement do
-
   describe 'to_r' do
     subject { Taken::Ast::BeforeStatement.new(spaces: ' ', block: block).to_r }
 

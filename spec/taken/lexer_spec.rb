@@ -8,14 +8,14 @@ RSpec.describe Taken::Lexer do
   RSpec.shared_examples 'assert lexing' do |token_type, literal, spaces|
     it { expect(token.type).to eq(token_type)  }
     it { expect(token.literal).to eq(literal)  }
-    it { expect(token.white_spaces).to eq(spaces)  }
+    it { expect(token.white_spaces).to eq(spaces) }
   end
 
   let(:lexer) { Taken::Lexer.new(reader) }
   let(:reader) { Taken::Reader.new(file) }
 
   describe '#next_token' do
-    subject(:token){ lexer.next_token }
+    subject(:token) { lexer.next_token }
     let(:file) { StringIO.new(content, 'r') }
 
     context '= is given' do

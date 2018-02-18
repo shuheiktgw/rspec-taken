@@ -29,7 +29,7 @@ RSpec.shared_examples 'simple Given/When statements' do |prefix|
     context 'with symbol keyword' do
       let(:keyword) { ':keyword' }
 
-      it { is_expected.to eq "     #{prefix}(:keyword)"}
+      it { is_expected.to eq "     #{prefix}(:keyword)" }
     end
 
     context 'with single quoted keyword' do
@@ -41,7 +41,7 @@ RSpec.shared_examples 'simple Given/When statements' do |prefix|
     context 'with double quoted keyword' do
       let(:keyword) { '"keyword"' }
 
-      it { is_expected.to eq "     #{prefix}(\"keyword\")"}
+      it { is_expected.to eq "     #{prefix}(\"keyword\")" }
     end
   end
 end

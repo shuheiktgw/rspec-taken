@@ -8,7 +8,7 @@ RSpec.describe Taken::Loader do
 
       context 'when file is given' do
         let(:path) { '../../../lib/taken/spec_samples/plain_specs/plain_first_spec.rb' }
-        it { is_expected.to eq [ File.expand_path(path, __FILE__) ] }
+        it { is_expected.to eq [File.expand_path(path, __FILE__)] }
       end
 
       context 'when directory is given' do

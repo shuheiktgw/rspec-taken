@@ -1,6 +1,5 @@
 module Taken
   class Writer
-
     attr_reader :file, :new_file_path
 
     def initialize(file_path:, override:)

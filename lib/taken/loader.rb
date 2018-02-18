@@ -1,7 +1,7 @@
 module Taken
   class Loader
-    FILE = 'file'
-    DIRECTORY = 'directory'
+    FILE = 'file'.freeze
+    DIRECTORY = 'directory'.freeze
 
     attr_reader :file_names, :file_idx, :file
 
@@ -33,15 +33,15 @@ module Taken
     private
 
     def get_files(path)
-      file_type = File::ftype(path)
+      file_type = File.ftype(path)
 
       names = if file_type == FILE
-        raise 'The file does not end with _spec.rb.' unless path.end_with?('_spec.rb')
-        [path]
-      elsif file_type == DIRECTORY
-        Dir.glob('**/*').select{|f| f.end_with? '_spec.rb' }
-      else
-        raise 'Invalid path is given.'
+                raise 'The file does not end with _spec.rb.' unless path.end_with?('_spec.rb')
+                [path]
+              elsif file_type == DIRECTORY
+                Dir.glob('**/*').select { |f| f.end_with? '_spec.rb' }
+              else
+                raise 'Invalid path is given.'
       end
 
       raise 'The given path does not contain _spec.rb file.' if names.empty?

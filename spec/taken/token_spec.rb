@@ -43,13 +43,13 @@ RSpec.describe Taken::Token do
       context 'when rparen is given' do
         let(:closer) { Taken::Token.new(type: Taken::Token::RPAREN, literal: ')') }
 
-        it { expect{ subject }.to raise_error RuntimeError, 'Unknown block opener is specified: (' }
+        it { expect { subject }.to raise_error RuntimeError, 'Unknown block opener is specified: (' }
       end
 
       context 'when rparen is not given' do
         let(:closer) { Taken::Token.new(type: Taken::Token::END_KEY, literal: 'end') }
 
-        it { expect{ subject }.to raise_error RuntimeError, 'Unknown block opener is specified: (' }
+        it { expect { subject }.to raise_error RuntimeError, 'Unknown block opener is specified: (' }
       end
     end
   end
@@ -68,7 +68,7 @@ RSpec.describe Taken::Token do
     end
 
     context 'without newline' do
-      let(:spaces) { "      " }
+      let(:spaces) { '      ' }
 
       it { is_expected.to be_falsey }
     end
@@ -76,7 +76,7 @@ RSpec.describe Taken::Token do
 
   describe '#add_new_line!' do
     subject { token.white_spaces }
-    let(:token){ Taken::Token.new(type: Taken::Token::LPAREN, literal: '(').attach_white_spaces '' }
+    let(:token) { Taken::Token.new(type: Taken::Token::LPAREN, literal: '(').attach_white_spaces '' }
 
     before do
       token.add_new_line!

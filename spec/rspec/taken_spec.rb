@@ -9,13 +9,13 @@ RSpec.describe Rspec::Taken do
     context 'plain ruby file is specified' do
       let(:path) { '../../../lib/taken/spec_samples/plain_specs/plain_second_spec.rb' }
 
-      it { expect{ subject }.not_to raise_error }
+      it { expect { subject }.not_to raise_error }
     end
 
     context 'stack given file is specified' do
       let(:path) { '../../../lib/taken/spec_samples/given_specs/stack_spec.rb' }
 
-      it { expect{ subject }.not_to raise_error }
+      it { expect { subject }.not_to raise_error }
     end
   end
 end

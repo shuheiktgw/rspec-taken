@@ -12,7 +12,6 @@ require 'taken/ast/assertions/and/statement'
 
 module Taken
   class Parser
-
     class ParseError < StandardError; end
 
     attr_reader :lexer, :current_token, :next_token
@@ -25,32 +24,32 @@ module Taken
 
     def parse_next
       parsed = case current_token.type
-      when Token::GIVEN
-        if next_token.type == Token::LPAREN # Given(:key) { some_value } / Given(:key) do ~ end
-          parse_let(Ast::Given::ParenStatement)
-        elsif next_token.type == Token::LBRACE || next_token.type == Token::DO # Given { some_method } / Given do ~ end
-          parse_before
-        else
-          Ast::Unknown.new(token: current_token)
-        end
-      when Token::WHEN
-        if next_token.type == Token::LPAREN # When(:key) { some_value } / When(:key) do ~ end
-          parse_let(Ast::LetBangStatement)
-        elsif next_token.type == Token::LBRACE || next_token.type == Token::DO # Given { some_method } / Given do ~ end
-          parse_before
-        else
-          Ast::Unknown.new(token: current_token)
-        end
-      when Token::GIVEN_BANG
-        parse_let(Ast::LetBangStatement)
-      when Token::THEN
-        parse_assertion(Ast::Assertions::Then::Statement)
-      when Token::AND
-        parse_assertion(Ast::Assertions::And::Statement)
-      when Token::EOF
-        Ast::EOF.new
-      else
-        Ast::Unknown.new(token: current_token)
+               when Token::GIVEN
+                 if next_token.type == Token::LPAREN # Given(:key) { some_value } / Given(:key) do ~ end
+                   parse_let(Ast::Given::ParenStatement)
+                 elsif next_token.type == Token::LBRACE || next_token.type == Token::DO # Given { some_method } / Given do ~ end
+                   parse_before
+                 else
+                   Ast::Unknown.new(token: current_token)
+                 end
+               when Token::WHEN
+                 if next_token.type == Token::LPAREN # When(:key) { some_value } / When(:key) do ~ end
+                   parse_let(Ast::LetBangStatement)
+                 elsif next_token.type == Token::LBRACE || next_token.type == Token::DO # Given { some_method } / Given do ~ end
+                   parse_before
+                 else
+                   Ast::Unknown.new(token: current_token)
+                 end
+               when Token::GIVEN_BANG
+                 parse_let(Ast::LetBangStatement)
+               when Token::THEN
+                 parse_assertion(Ast::Assertions::Then::Statement)
+               when Token::AND
+                 parse_assertion(Ast::Assertions::And::Statement)
+               when Token::EOF
+                 Ast::EOF.new
+               else
+                 Ast::Unknown.new(token: current_token)
       end
 
       get_next

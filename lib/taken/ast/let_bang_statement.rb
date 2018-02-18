@@ -3,7 +3,6 @@ require 'taken/ast/ast_base'
 module Taken
   module Ast
     class LetBangStatement < Ast::AstBase
-
       attr_reader :spaces, :keyword
 
       def initialize(spaces:, keyword:)
@@ -12,7 +11,7 @@ module Taken
       end
 
       def generate_code(_generator)
-        self.to_r
+        to_r
       end
 
       def to_r

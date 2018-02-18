@@ -5,7 +5,6 @@ module Taken
     module Assertions
       module And
         class Statement < Ast::AstBase
-
           attr_reader :spaces, :block
 
           def initialize(spaces:, block:)

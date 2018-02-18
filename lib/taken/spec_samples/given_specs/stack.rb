@@ -23,7 +23,7 @@ class Stack
   end
 
   def pop
-    fail UnderflowError, "Cannot pop an empty stack" if empty?
+    raise UnderflowError, 'Cannot pop an empty stack' if empty?
     @items.pop
   end
 end

@@ -3,10 +3,10 @@ require 'spec_helper'
 describe Loader do
   describe '#load_next' do
     context 'when file exists' do
-      let(:loader) {Loader.new(path)}
+      let(:loader) { Loader.new(path) }
 
       context 'when path is file' do
-        let(:path) {File.expand_path('../jack_codes/test.jack', __FILE__)}
+        let(:path) { File.expand_path('../jack_codes/test.jack', __FILE__) }
 
         context 'call load_next once' do
           subject do
@@ -33,14 +33,13 @@ describe Loader do
       end
 
       context 'when path is directory' do
-        let(:path) {File.expand_path('../jack_codes/test', __FILE__)}
+        let(:path) { File.expand_path('../jack_codes/test', __FILE__) }
 
         context 'call load_next once' do
           subject do
             loader.load_next
             loader.content
           end
-
 
           it 'should return first file content' do
             is_expected.to eq "test1\ntest1\ntest1"
@@ -75,9 +74,8 @@ describe Loader do
     end
 
     context 'when file does not exist' do
-
       it 'should raise error' do
-        expect {Loader.new(File.expand_path('../jack_codes/unknown.jack', __FILE__))}
+        expect { Loader.new(File.expand_path('../jack_codes/unknown.jack', __FILE__)) }
       end
     end
   end

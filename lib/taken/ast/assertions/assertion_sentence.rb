@@ -5,7 +5,6 @@ module Taken
   module Ast
     module Assertions
       class AssertionSentence < Ast::AstBase
-
         attr_reader :tokens
 
         def initialize(tokens)

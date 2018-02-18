@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Writer do
-  let(:writer) {Writer.new(path)}
-  let(:path) {File.expand_path('../test_output/test.vm', __FILE__)}
+  let(:writer) { Writer.new(path) }
+  let(:path) { File.expand_path('../test_output/test.vm', __FILE__) }
 
   describe '#write_push' do
     context 'if valid segment is given' do
@@ -19,7 +19,7 @@ describe Writer do
       let(:segment) { 'invalid' }
 
       it 'should raise error' do
-        expect{ writer.write_push(segment: segment, index: 0) }.to raise_error('invalid segment is selected: invalid')
+        expect { writer.write_push(segment: segment, index: 0) }.to raise_error('invalid segment is selected: invalid')
       end
     end
   end
@@ -38,7 +38,7 @@ describe Writer do
       let(:segment) { 'invalid' }
 
       it 'should raise error' do
-        expect{ writer.write_pop(segment: segment, index: 0) }.to raise_error('invalid segment is selected: invalid')
+        expect { writer.write_pop(segment: segment, index: 0) }.to raise_error('invalid segment is selected: invalid')
       end
     end
   end
@@ -57,7 +57,7 @@ describe Writer do
       let(:command) { 'somethingGreat' }
 
       it 'should raise error' do
-        expect{ writer.write_command(command) }.to raise_error('invalid command is given: somethingGreat')
+        expect { writer.write_command(command) }.to raise_error('invalid command is given: somethingGreat')
       end
     end
   end

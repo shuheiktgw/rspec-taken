@@ -2,7 +2,6 @@ require 'rufo'
 
 module Taken
   class Generator
-
     attr_reader :parser, :writer
 
     def initialize(parser, writer)
@@ -15,7 +14,7 @@ module Taken
 
     def execute
       until current_ast.eof?
-        writer.write(current_ast.generate_code self)
+        writer.write(current_ast.generate_code(self))
         get_next
       end
 
@@ -26,13 +25,9 @@ module Taken
       puts "Format Completed. status :#{e.status}"
     end
 
-    def current_ast
-      @current_ast
-    end
+    attr_reader :current_ast
 
-    def next_ast
-      @next_ast
-    end
+    attr_reader :next_ast
 
     def get_next
       @current_ast = @next_ast

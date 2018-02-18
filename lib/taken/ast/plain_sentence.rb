@@ -3,7 +3,6 @@ require 'taken/ast/ast_base'
 module Taken
   module Ast
     class PlainSentence < Ast::AstBase
-
       attr_reader :tokens
 
       def initialize(tokens)
@@ -11,11 +10,11 @@ module Taken
       end
 
       def generate_code(_generator)
-        self.to_r
+        to_r
       end
 
       def to_r
-        "#{tokens.map(&:to_s).join}"
+        tokens.map(&:to_s).join.to_s
       end
 
       def newline?
@@ -28,7 +27,7 @@ module Taken
       end
 
       def ==(other)
-        tokens.map.with_index{ |t, i| t == other.tokens[i] }.all?
+        tokens.map.with_index { |t, i| t == other.tokens[i] }.all?
       end
     end
   end

@@ -4,7 +4,6 @@ module Taken
   module Ast
     module Given
       class ParenStatement < Ast::AstBase
-
         attr_reader :spaces, :keyword
 
         def initialize(spaces:, keyword:)
@@ -13,7 +12,7 @@ module Taken
         end
 
         def generate_code(_generator)
-          self.to_r
+          to_r
         end
 
         def to_r

@@ -3,7 +3,6 @@ require 'taken/ast/ast_base'
 module Taken
   module Ast
     class BeforeStatement < Ast::AstBase
-
       attr_reader :spaces, :block
 
       def initialize(spaces:, block:)
@@ -12,7 +11,7 @@ module Taken
       end
 
       def generate_code(_generator)
-        self.to_r
+        to_r
       end
 
       def to_r

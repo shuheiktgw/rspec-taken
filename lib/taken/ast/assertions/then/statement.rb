@@ -5,7 +5,6 @@ module Taken
     module Assertions
       module Then
         class Statement < Ast::AstBase
-
           attr_reader :spaces, :block
 
           def initialize(spaces:, block:)
@@ -16,10 +15,10 @@ module Taken
           def generate_code(generator)
             while generator.next_ast.is_a? Ast::Assertions::And::Statement
               generator.get_next
-              self.merge_and!(generator.current_ast)
+              merge_and!(generator.current_ast)
             end
 
-            self.to_r
+            to_r
           end
 
           def merge_and!(and_statement)

@@ -7,20 +7,19 @@ require 'taken/token'
 require 'pry'
 
 RSpec.describe Taken::Parser do
-
-  let(:parser) {Taken::Parser.new(lexer)}
-  let(:lexer) {Taken::Lexer.new(reader)}
-  let(:reader) {Taken::Reader.new(file)}
+  let(:parser) { Taken::Parser.new(lexer) }
+  let(:lexer) { Taken::Lexer.new(reader) }
+  let(:reader) { Taken::Reader.new(file) }
 
   describe '#next_token' do
-    subject(:parsed) {parser.parse_next}
-    let(:file) {StringIO.new(content, 'r')}
+    subject(:parsed) { parser.parse_next }
+    let(:file) { StringIO.new(content, 'r') }
 
     context 'when Given with lparen is given' do
-      let(:content) {"Given(#{key}) { [:second_item, :top_item] }"}
+      let(:content) { "Given(#{key}) { [:second_item, :top_item] }" }
 
       context 'key is symnol' do
-        let(:key) {':initial_contents'}
+        let(:key) { ':initial_contents' }
 
         context 'parsed once' do
           it 'parsed given declaration' do
@@ -41,7 +40,7 @@ RSpec.describe Taken::Parser do
       end
 
       context 'key is single quoted' do
-        let(:key) {"'initial_contents'"}
+        let(:key) { "'initial_contents'" }
 
         context 'parsed once' do
           it 'parsed given declaration' do
@@ -62,7 +61,7 @@ RSpec.describe Taken::Parser do
       end
 
       context 'key is double quoted' do
-        let(:key) {'"initial_contents"'}
+        let(:key) { '"initial_contents"' }
 
         context 'parsed once' do
           it 'parsed given declaration' do
@@ -85,7 +84,7 @@ RSpec.describe Taken::Parser do
 
     context 'when Given without lparen is given' do
       context 'when block is {}' do
-        let(:content) {"Given { do_something! }"}
+        let(:content) { 'Given { do_something! }' }
 
         it 'parses given statement' do
           expect(parsed.to_r).to eq 'before { do_something! }'
@@ -99,7 +98,6 @@ Given do
   do_something!(arg)
   do_something!(arg)
 end'''
-
         end
 
         it 'parses given statement' do
@@ -114,7 +112,7 @@ end'''
 
     context 'when Given! is given' do
       context 'when block is {}' do
-        let(:content) {"Given!(:test) { do_something! }"}
+        let(:content) { 'Given!(:test) { do_something! }' }
 
         context 'parsed once' do
           it 'parses given statement' do
@@ -161,7 +159,7 @@ end
 
     context 'when When with paren is given' do
       context 'when block is {}' do
-        let(:content) {"When(:test) { do_something! }"}
+        let(:content) { 'When(:test) { do_something! }' }
 
         context 'parsed once' do
           it 'parses given statement' do
@@ -208,7 +206,7 @@ end
 
     context 'when When without lparen is given' do
       context 'when block is {}' do
-        let(:content) {"When { do_something! }"}
+        let(:content) { 'When { do_something! }' }
 
         it 'parses given statement' do
           expect(parsed.to_r).to eq 'before { do_something! }'
@@ -222,7 +220,6 @@ When do
   do_something!(arg)
   do_something!(arg)
 end'''
-
         end
 
         it 'parses given statement' do
@@ -239,7 +236,7 @@ end'''
       context 'when block with brackets' do
         context 'single sentence' do
           context 'without newline' do
-            let(:content) {'Then{ stack.depth == 0 }'}
+            let(:content) { 'Then{ stack.depth == 0 }' }
 
             it 'parses then statement' do
               expect(parsed.to_r).to eq 'it{ expect(stack.depth).to eq(0) }'
@@ -309,9 +306,9 @@ end'''
               end
 
               it 'parses then statement' do
-                expect(parser.parse_next.to_r).to eq ('  it{ expect(stack.depth).to eq(0) }')
-                expect(parser.parse_next.to_r).to eq ("\n  it{ expect(stack.depth).to eq(0) }")
-                expect(parser.parse_next.to_r).to eq ("\n  it{ expect(stack.depth).to eq(0) }")
+                expect(parser.parse_next.to_r).to eq '  it{ expect(stack.depth).to eq(0) }'
+                expect(parser.parse_next.to_r).to eq "\n  it{ expect(stack.depth).to eq(0) }"
+                expect(parser.parse_next.to_r).to eq "\n  it{ expect(stack.depth).to eq(0) }"
               end
             end
           end
@@ -364,15 +361,15 @@ end'''
     end
 
     context 'when And is given' do
-      let(:content) {'And{ stack.depth == 0 }'}
+      let(:content) { 'And{ stack.depth == 0 }' }
 
       it 'raises runtime error' do
-        expect{ parsed.to_r }.to raise_error RuntimeError, 'Cannot call and to_r of And Statement. Something must be wrong with the logic.'
+        expect { parsed.to_r }.to raise_error RuntimeError, 'Cannot call and to_r of And Statement. Something must be wrong with the logic.'
       end
     end
 
     context 'when EOF is given' do
-      let(:content) {''}
+      let(:content) { '' }
 
       context 'parsed once' do
         it 'parsed eof' do
