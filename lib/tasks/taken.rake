@@ -1,4 +1,4 @@
-require 'taken'
+require 'rspec/taken'
 
 desc 'Transpile RSpec/Given files into RSpec.'
 
