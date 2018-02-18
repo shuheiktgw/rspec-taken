@@ -1,0 +1,13 @@
+Metrics/LineLength:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Lint/ImplicitStringConcatenation:
+  Enabled: false
+
+AllCops:
+  Exclude:
+    - Gemfile
+    - rspec-taken.gemspec
