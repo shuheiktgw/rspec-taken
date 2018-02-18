@@ -19,27 +19,27 @@ module Rspec
       private
 
       def loader(path)
-        @loader ||= Loader.new(path)
+        @loader ||= ::Taken::Loader.new(path)
       end
 
       def reader
-        Reader.new(@loader.file)
+        ::Taken::Reader.new(@loader.file)
       end
 
       def lexer
-        Lexer.new(reader)
+        ::Taken::Lexer.new(reader)
       end
 
       def parser
-        Parser.new(lexer)
+        ::Taken::Parser.new(lexer)
       end
 
       def writer
-        Writer.new(file_path: @loader.current_file_name)
+        ::Taken::Writer.new(file_path: @loader.current_file_name)
       end
 
       def generator
-        Generator.new(parser, writer)
+        ::Taken::Generator.new(parser, writer)
       end
     end
   end
