@@ -33,13 +33,15 @@ module Taken
     private
 
     def get_files(path)
+      binding.pry
+
       file_type = File::ftype(path)
 
       names = if file_type == FILE
         raise 'The file does not end with _spec.rb.' unless path.end_with?('_spec.rb')
         [path]
       elsif file_type == DIRECTORY
-        Dir.glob(path + '**/*_spec.rb')
+        Dir.glob('**/*').select{|f| f.end_with? '_spec.rb' }
       else
         raise 'Invalid path is given.'
       end
