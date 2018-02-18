@@ -4,7 +4,9 @@ desc 'Transpile RSpec/Given files into RSpec.'
 
 task :taken do
   ::Rspec::Taken.taken(ARGV.last)
-  ARGV.slice(1,ARGV.size).each{|v| task v.to_sym do; end }
+  puts "\e[32m[Success]\e[0m Transpiled RSpec files below."
 
-  puts 'Success!'
+  ::Rspec::Taken.files.each do |f|
+    puts f
+  end
 end

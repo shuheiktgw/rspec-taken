@@ -16,6 +16,10 @@ module Rspec
         end
       end
 
+      def files
+        @loader.file_names
+      end
+
       private
 
       def loader(path)
