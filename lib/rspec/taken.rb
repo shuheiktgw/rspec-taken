@@ -11,18 +11,28 @@ module Rspec
     class << self
 
       # override is mainly used for testing, it transpiles test_spec.rb -> test_taken_spec.rb if false
-      def taken(path, override: true)
-        @@override = true
-        while loader(path).load_next_file
-          generator.execute
-        end
-      end
+      def taken(path, override = true)
+        @@override = override
 
-      def files
-        @loader.file_names
+        succeed = []
+        failed = []
+
+        while loader(path).load_next_file
+          begin
+            generator.execute
+            succeed << @loader.current_file_name
+          rescue => e
+            raise e
+            failed << report_failure(@loader.current_file_name, e.message)
+          end
+        end
+
+        [succeed, failed]
       end
 
       private
+
+      Failure = Struct.new :file_name, :message
 
       def loader(path)
         @loader ||= ::Taken::Loader.new(path)
@@ -46,6 +56,10 @@ module Rspec
 
       def generator
         ::Taken::Generator.new(parser, writer)
+      end
+
+      def report_failure(file_name, message)
+        Failure.new(file_name, message)
       end
     end
   end

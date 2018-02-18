@@ -33,8 +33,6 @@ module Taken
     private
 
     def get_files(path)
-      binding.pry
-
       file_type = File::ftype(path)
 
       names = if file_type == FILE
