@@ -3,8 +3,8 @@ module Taken
 
     attr_reader :file, :new_file_path
 
-    def initialize(file_path:)
-      @new_file_path = file_path.gsub(/_spec.rb/, '_taken_spec.rb')
+    def initialize(file_path:, override:)
+      @new_file_path = override ? file_path : file_path.gsub(/_spec.rb/, '_taken_spec.rb')
       raise "Invalid file path is given. file_path: #{file_path}" if @new_file_path.nil?
 
       @file = File.open(@new_file_path, 'w')

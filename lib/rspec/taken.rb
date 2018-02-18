@@ -10,7 +10,9 @@ module Rspec
   module Taken
     class << self
 
-      def taken(path)
+      # override is mainly used for testing, it transpiles test_spec.rb -> test_taken_spec.rb if false
+      def taken(path, override: true)
+        @@override = true
         while loader(path).load_next_file
           generator.execute
         end
@@ -39,7 +41,7 @@ module Rspec
       end
 
       def writer
-        ::Taken::Writer.new(file_path: @loader.current_file_name)
+        ::Taken::Writer.new(file_path: @loader.current_file_name, override: @@override)
       end
 
       def generator
