@@ -129,11 +129,8 @@ module Taken
     end
 
     def expect_next(*expected)
-      if expected.include?(@next_token.type)
-        get_next
-      else
-        raise ParseError, "Expected next token to be #{expected.join(' or ')}. Got: #{@next_token.type}"
-      end
+      return get_next if expected.include?(@next_token.type)
+      raise ParseError, "Expected next token to be #{expected.join(' or ')}. Got: #{@next_token.type}"
     end
 
     def get_next

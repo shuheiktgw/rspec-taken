@@ -1,16 +1,41 @@
+Lint/ImplicitStringConcatenation:
+  Enabled: false
+
+Lint/EndAlignment:
+ Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
 Metrics/LineLength:
   Enabled: false
 
 Metrics/BlockLength:
   Enabled: false
 
-Lint/ImplicitStringConcatenation:
+Metrics/MethodLength:
   Enabled: false
 
-Style/NumericPredicate:
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Naming/AccessorMethodName:
   Enabled: false
 
 AllCops:
   Exclude:
     - Gemfile
     - rspec-taken.gemspec
+    - lib/taken/spec_samples/**/*
