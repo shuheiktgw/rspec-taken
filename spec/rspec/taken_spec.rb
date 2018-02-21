@@ -3,7 +3,7 @@ require 'rspec/taken'
 
 RSpec.describe Rspec::Taken do
   describe '#execute' do
-    subject { Taken.taken(file_path) }
+    subject { ::Rspec::Taken.taken(file_path) }
 
     let(:file_path) { File.expand_path(path, __FILE__) }
 

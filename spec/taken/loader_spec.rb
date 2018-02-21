@@ -15,7 +15,7 @@ RSpec.describe Taken::Loader do
       context 'when directory is given' do
         let(:path) { '../../../lib/taken/spec_samples/plain_specs' }
 
-        it { expect(subject.length).to eq 5 }
+        it { expect(subject.length).to eq 3 }
         it { is_expected.to include(File.expand_path(path + '/plain_first_spec.rb', __FILE__)) }
         it { is_expected.to include(File.expand_path(path + '/plain_second_spec.rb', __FILE__)) }
         it { is_expected.not_to include(File.expand_path(path + '/plain_ruby.rb', __FILE__)) }

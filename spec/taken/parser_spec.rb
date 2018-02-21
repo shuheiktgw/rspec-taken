@@ -351,8 +351,8 @@ end'''
               expect(parsed.to_r).to eq '' '  it do
     stack.push 1
     stack.pop
-    expect(stack.depth).to eq(0)
-    expect(stack.count).to eq(0)
+    stack.depth == 0
+    stack.count == 0
     expect(stack.sound).to eq(0)
   end' ''
             end

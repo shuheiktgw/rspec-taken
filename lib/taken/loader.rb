@@ -39,7 +39,8 @@ module Taken
                 raise 'The file does not end with _spec.rb.' unless path.end_with?('_spec.rb')
                 [path]
               elsif file_type == DIRECTORY
-                Dir.glob('**/*').select { |f| f.end_with? '_spec.rb' }
+                p = path.end_with?('/') ? path + '**/*' : path + '/**/*'
+                Dir.glob(p).select { |f| f.end_with? '_spec.rb' }
               else
                 raise 'Invalid path is given.'
       end

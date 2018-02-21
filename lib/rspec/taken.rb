@@ -50,7 +50,7 @@ module Rspec
       end
 
       def writer
-        ::Taken::Writer.new(file_path: @loader.current_file_name, override: @development)
+        ::Taken::Writer.new(file_path: @loader.current_file_name, overwrite: @development)
       end
 
       def generator

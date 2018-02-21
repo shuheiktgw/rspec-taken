@@ -3,7 +3,7 @@ require 'taken/writer'
 
 RSpec.describe Taken::Writer do
   describe 'initialize' do
-    subject { described_class.new(file_path: path) }
+    subject { described_class.new(file_path: path, overwrite: false) }
 
     context 'when file name with "spec" is given' do
       let(:path) { File.expand_path('../../../lib/taken/spec_samples/test_outputs/test_spec.rb', __FILE__) }
@@ -21,13 +21,13 @@ RSpec.describe Taken::Writer do
       let(:path) { File.expand_path('../../../lib/taken/spec_samples/test_outputs/test.rb', __FILE__) }
 
       it 'raises RuntimeError' do
-        expect { subject }.to raise_error RuntimeError, "Invalid file path is given. file_path: #{path}"
+        expect { subject }.to raise_error RuntimeError, "File should end with _spec.rb. file_path: #{path}"
       end
     end
   end
 
   describe '#write' do
-    let(:writer) { described_class.new(file_path: path) }
+    let(:writer) { described_class.new(file_path: path, overwrite: false) }
     let(:path) { File.expand_path('../../../lib/taken/spec_samples/test_outputs/test_spec.rb', __FILE__) }
     let(:content) { 'this is a test sentence.' }
 
@@ -37,7 +37,7 @@ RSpec.describe Taken::Writer do
     end
 
     it 'writes' do
-      expect(File.read(path)).to eq 'this is a test sentence.'
+      expect(File.read(path)).to eq "this is a test sentence.\n"
     end
   end
 end
