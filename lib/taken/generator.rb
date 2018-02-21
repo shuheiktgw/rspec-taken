@@ -2,7 +2,7 @@ require 'rufo'
 
 module Taken
   class Generator
-    attr_reader :parser, :writer
+    attr_reader :parser, :writer, :current_ast, :next_ast
 
     def initialize(parser, writer)
       @parser = parser
@@ -24,10 +24,6 @@ module Taken
     rescue SystemExit => e
       puts "Format Completed. status :#{e.status}"
     end
-
-    attr_reader :current_ast
-
-    attr_reader :next_ast
 
     def get_next
       @current_ast = @next_ast
