@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'taken'
+require 'rspec/taken'
 
 RSpec.describe Rspec::Taken do
   describe '#execute' do
