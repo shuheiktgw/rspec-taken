@@ -51,6 +51,32 @@ RSpec.describe Taken::Generator do
     it { is_expected.to eq expected }
   end
 
+  context 'Then with block' do
+    let(:content) do
+      '''
+Then do
+  doing do
+    execute_method!
+  end
+  user.full_name == "#{first_name} #{last_name}"
+end
+'''
+    end
+
+    let(:expected) do
+      '''
+it do
+  doing do
+    execute_method!
+  end
+  expect(user.full_name).to eq("#{first_name} #{last_name}")
+end
+'''
+    end
+
+    it { is_expected.to eq expected }
+  end
+
   context 'Then/And with string opener' do
     let(:content) do
       '''

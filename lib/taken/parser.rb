@@ -106,8 +106,14 @@ module Taken
 
       get_next
 
+      # A number of block opener encountered when parsing block
+      # Since block might contain another block, opener_count should be zero when stop parsing
+      # The example blow contains two {}s inside Then block
+      # ex. Then { "something"  == "#{var1}#{var2}"}
+      @opener_count = 0
+
       sentences = []
-      until opener.block_closer?(current_token)
+      until opener.block_closer?(current_token) && @opener_count == 0
         sentences << parse_block_sentence(opener) do |tokens, is_last|
           yield tokens, is_last
         end
@@ -120,21 +126,16 @@ module Taken
 
     def parse_block_sentence(opener)
       tokens = []
-      # A number of block opener encountered when parsing block
-      # Since block might contain another block, opener_count should be zero when stop parsing
-      # The example blow contains two {}s inside Then block
-      # ex. Then { "something"  == "#{var1}#{var2}"}
-      opener_count = 0
 
-      until (!tokens.empty? && current_token.newline?) || (opener.block_closer?(current_token) && opener_count == 0)
-        opener_count += 1 if opener.type == current_token.type
-        opener_count -= 1 if opener.block_closer?(current_token)
+      until (!tokens.empty? && current_token.newline?) || (opener.block_closer?(current_token) && @opener_count == 0)
+        @opener_count += 1 if opener.type == current_token.type
+        @opener_count -= 1 if opener.block_closer?(current_token)
 
         tokens << current_token
         get_next
       end
 
-      yield tokens, opener.block_closer?(current_token)
+      yield tokens, opener.block_closer?(current_token) && @opener_count == 0
     end
 
     def expect_next(*expected)
