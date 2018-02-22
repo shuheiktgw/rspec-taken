@@ -119,6 +119,7 @@ RSpec.describe Taken::AssertionTranspiler do
     end
     context 'more than two ==s' do
       let(:sentence) { ' 1 == [1, 2, 3].select{|e| e == 1 } ' }
+
       it { is_expected.to eq 'expect(1 == [1, 2, 3].select{|e| e == 1 }).to be_truthy' }
     end
   end

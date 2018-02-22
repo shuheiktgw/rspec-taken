@@ -41,12 +41,8 @@ RSpec.describe Taken::Generator do
   end
 
   context 'Then with string opener' do
-    let(:content) do
-      'Then { user.full_name == "#{first_name} #{last_name}" }'
-    end
-    let(:expected) do
-      "it { expect(user.full_name).to eq(\"\#{first_name} \#{last_name}\") }\n"
-    end
+    let(:content) { 'Then { user.full_name == "#{first_name} #{last_name}" }' }
+    let(:expected) { "it { expect(user.full_name).to eq(\"\#{first_name} \#{last_name}\") }\n" }
 
     it { is_expected.to eq expected }
   end
@@ -73,6 +69,13 @@ it do
 end
 '''
     end
+
+    it { is_expected.to eq expected }
+  end
+
+  context 'Then with more than two ==s' do
+    let(:content) { 'Then { 1 == [1, 2, 3].select{|e| e == 1 } }' }
+    let(:expected) { "it { expect(1 == [1, 2, 3].select { |e| e == 1 }).to be_truthy }\n" }
 
     it { is_expected.to eq expected }
   end
