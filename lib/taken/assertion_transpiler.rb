@@ -1,7 +1,9 @@
 class Taken::AssertionTranspiler
   class << self
-    # TODO: Handle double equals
     def transpile(sentence)
+      # TODO: Handle double equals elegantly
+      return "expect(#{cleanup_sentence sentence}).to be_truthy" if more_than_two_eqs?(sentence)
+
       case sentence
       # expect(1).to eq(1) => expect(1).to eq(1)
       when /^\s*expect.+$/
@@ -38,6 +40,10 @@ class Taken::AssertionTranspiler
         striped.slice!(-1)
       end
       striped
+    end
+
+    def more_than_two_eqs?(sentence)
+      (sentence.scan('==').count > 1) && (sentence !~ /^\s*expect.+$/)
     end
   end
 end
