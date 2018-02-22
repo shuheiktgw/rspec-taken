@@ -9,6 +9,9 @@ Lint/ImplicitStringConcatenation:
 Lint/EndAlignment:
  Enabled: false
 
+Lint/InterpolationCheck:
+ Enabled: false
+
 Style/NumericPredicate:
   Enabled: false
 

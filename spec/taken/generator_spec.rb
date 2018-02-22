@@ -8,7 +8,12 @@ require 'taken/writer'
 require 'taken/generator'
 
 RSpec.describe Taken::Generator do
-  subject { destination.string }
+  subject do
+    # Manually run a formatter since file path is mocked
+    f = Rufo::Formatter.new(destination.string)
+    f.format
+    f.result
+  end
 
   let(:path) { 'test_spec.rb' }
   let(:loader) { Taken::Loader.new(path).tap(&:load_next_file) }
@@ -28,9 +33,41 @@ RSpec.describe Taken::Generator do
     generator.execute
   end
 
-  context 'test' do
-    let(:content) { 'test' }
-    let(:expected) { 'test' }
+  context 'plain text' do
+    let(:content) { 'test test test' }
+    let(:expected) { "test test test\n" }
+
+    it { is_expected.to eq expected }
+  end
+
+  context 'Then with string opener' do
+    let(:content) do
+      'Then { user.full_name == "#{first_name} #{last_name}" }'
+    end
+    let(:expected) do
+      "it { expect(user.full_name).to eq(\"\#{first_name} \#{last_name}\") }\n"
+    end
+
+    it { is_expected.to eq expected }
+  end
+
+  context 'Then/And with string opener' do
+    let(:content) do
+      '''
+Then { user.first_name == first_name }
+And  { user.last_name == last_name }
+And  { user.full_name == "#{first_name} #{last_name}" }
+'''
+    end
+    let(:expected) do
+      '''
+it do
+  expect(user.first_name).to eq(first_name)
+  expect(user.last_name).to eq(last_name)
+  expect(user.full_name).to eq("#{first_name} #{last_name}")
+end
+'''
+    end
 
     it { is_expected.to eq expected }
   end
