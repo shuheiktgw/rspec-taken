@@ -12,6 +12,9 @@ Lint/EndAlignment:
 Lint/InterpolationCheck:
  Enabled: false
 
+Lint/Void:
+ Enabled: false
+
 Style/NumericPredicate:
   Enabled: false
 

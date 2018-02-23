@@ -9,7 +9,7 @@ require 'taken/railtie' if defined?(Rails)
 module Rspec
   module Taken
     class << self
-      # override is mainly used for testing, it transpiles test_spec.rb -> test_taken_spec.rb if false
+      # override is mainly used for testing
       def taken(path, development = true)
         @development = development
 
@@ -50,7 +50,7 @@ module Rspec
       end
 
       def writer
-        ::Taken::Writer.new(file_path: @loader.current_file_name, overwrite: @development)
+        ::Taken::Writer.new(file_path: @loader.current_file_name, overwrite: !@development)
       end
 
       def generator

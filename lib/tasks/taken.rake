@@ -4,7 +4,8 @@ desc 'Transpile RSpec/Given files into RSpec.'
 
 task :taken do
   begin
-    succeeded, failed = ::Rspec::Taken.taken(ARGV.last)
+    path = ARGV.last == 'true' ? ARGV[-2] : ARGV.last
+    succeeded, failed = ::Rspec::Taken.taken(path, ARGV.last == 'true')
 
     unless succeeded.empty?
       puts "\e[32m[Success]\e[0m Successfully transpiled RSpec files below."

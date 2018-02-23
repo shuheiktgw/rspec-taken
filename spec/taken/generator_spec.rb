@@ -82,22 +82,49 @@ end
 
   context 'Then/And with string opener' do
     let(:content) do
-      '''
+      '
 Then { user.first_name == first_name }
 And  { user.last_name == last_name }
 And  { user.full_name == "#{first_name} #{last_name}" }
-'''
+'
     end
     let(:expected) do
-      '''
+      '
 it do
   expect(user.first_name).to eq(first_name)
   expect(user.last_name).to eq(last_name)
   expect(user.full_name).to eq("#{first_name} #{last_name}")
 end
-'''
+'
     end
 
     it { is_expected.to eq expected }
+  end
+
+  context 'Then/And with context' do
+    let(:content) do
+      "
+    context 'when something' do
+      Then { response.status == 200 }
+      And { something.present? }
+      And { something.something.blank? }
+      And { something == something }
+    end
+"
+      let(:expected) do
+        "
+    context 'when something' do
+      it do
+        expect(response.status).eq(200)
+        expect(something).be_present?
+        expect(something.something).be_blank?
+        expect(something).to(something)
+      end
+    end
+"
+      end
+
+      it { is_expected.to eq expected }
+    end
   end
 end
