@@ -16,7 +16,7 @@ class Taken::AssertionTranspiler
         "expect{ #{cleanup_sentence Regexp.last_match(1)} }.to raise_error(#{cleanup_sentence Regexp.last_match(2)}, #{cleanup_sentence Regexp.last_match(3)})"
       # nil.nil? => expect(nil).to be_nil?
       when /^(.+)\.([^.\s]+)\?\s*$/
-        "expect(#{cleanup_sentence Regexp.last_match(1)}).to be_#{cleanup_sentence Regexp.last_match(2)}"
+        "expect(#{cleanup_sentence Regexp.last_match(1)}).to be_#{cleanup_sentence Regexp.last_match(2)}?"
       # false == false => expect(false).to be_falsey
       when /^\s*(.+)\s*==\s*false\s*$/
         "expect(#{cleanup_sentence Regexp.last_match(1)}).to be_falsey"
