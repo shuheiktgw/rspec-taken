@@ -111,20 +111,40 @@ end
       And { something == something }
     end
 "
-      let(:expected) do
-        "
-    context 'when something' do
-      it do
-        expect(response.status).eq(200)
-        expect(something).be_present?
-        expect(something.something).be_blank?
-        expect(something).to(something)
-      end
     end
-"
-      end
 
-      it { is_expected.to eq expected }
+    let(:expected) do
+      "
+context 'when something' do
+it do
+  expect(response.status).to eq(200)
+  expect(something).to be_present?
+  expect(something.something).to be_blank?
+  expect(something).to eq(something)
+end
+end
+"
     end
+
+    it { is_expected.to eq expected }
+  end
+
+  context 'Then with newline' do
+    let(:content) do
+      '
+      Then {
+        do_something
+
+      }
+'
+    end
+
+    let(:expected) do
+      '
+    expect(response.status).to eq(200)
+'
+    end
+
+    it { is_expected.to eq expected }
   end
 end
