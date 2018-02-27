@@ -118,8 +118,8 @@ end
 context 'when something' do
   it do
     expect(response.status).to eq(200)
-    expect(something).to be_present?
-    expect(something.something).to be_blank?
+    expect(something).to be_present
+    expect(something.something).to be_blank
     expect(something).to eq(something)
   end
 end
@@ -144,6 +144,37 @@ end
 it {
   do_something!
   expect(response.status).to eq(200)
+}
+'
+    end
+
+    it { is_expected.to eq expected }
+  end
+
+  context 'Expect with newline' do
+    let(:content) do
+      '
+    Then {
+      expect{ response }.
+        to change {
+          SomeModel.where(
+            id: some_model.id,
+            name: some_model.name ).count
+        }.by(-1)
+    }
+'
+    end
+
+    let(:expected) do
+      '
+it {
+  expect { response }.
+    to change {
+    SomeModel.where(
+      id: some_model.id,
+      name: some_model.name,
+    ).count
+  }.by(-1)
 }
 '
     end

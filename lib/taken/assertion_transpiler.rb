@@ -3,6 +3,8 @@ class Taken::AssertionTranspiler
     def transpile(sentence)
       # TODO: Handle double equals elegantly
       return "expect(#{cleanup_sentence sentence}).to be_truthy" if more_than_two_eqs?(sentence)
+      # TODO: Handle incomplete sentence
+      return sentence if incomplete?(sentence)
 
       case sentence
       # expect(1).to eq(1) => expect(1).to eq(1)
@@ -16,7 +18,7 @@ class Taken::AssertionTranspiler
         "expect{ #{cleanup_sentence Regexp.last_match(1)} }.to raise_error(#{cleanup_sentence Regexp.last_match(2)}, #{cleanup_sentence Regexp.last_match(3)})"
       # nil.nil? => expect(nil).to be_nil?
       when /^(.+)\.([^.\s]+)\?\s*$/
-        "expect(#{cleanup_sentence Regexp.last_match(1)}).to be_#{cleanup_sentence Regexp.last_match(2)}?"
+        "expect(#{cleanup_sentence Regexp.last_match(1)}).to be_#{cleanup_sentence Regexp.last_match(2)}"
       # false == false => expect(false).to be_falsey
       when /^\s*(.+)\s*==\s*false\s*$/
         "expect(#{cleanup_sentence Regexp.last_match(1)}).to be_falsey"
@@ -44,6 +46,12 @@ class Taken::AssertionTranspiler
 
     def more_than_two_eqs?(sentence)
       (sentence.scan('==').count > 1) && (sentence !~ /^\s*expect.+$/)
+    end
+
+    def incomplete?(sentence)
+      %w|, . ) ] }|.any? do |e|
+        sentence.strip.start_with? e
+      end
     end
   end
 end

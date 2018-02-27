@@ -122,5 +122,11 @@ RSpec.describe Taken::AssertionTranspiler do
 
       it { is_expected.to eq 'expect(1 == [1, 2, 3].select{|e| e == 1 }).to be_truthy' }
     end
+    # This should have been handled, but so far there is no good ways to do so...
+    context 'incomplete sentence' do
+      let(:sentence) { ' }.by(-1) ' }
+
+      it { is_expected.to eq ' }.by(-1) ' }
+    end
   end
 end
