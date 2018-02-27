@@ -116,12 +116,12 @@ end
     let(:expected) do
       "
 context 'when something' do
-it do
-  expect(response.status).to eq(200)
-  expect(something).to be_present?
-  expect(something.something).to be_blank?
-  expect(something).to eq(something)
-end
+  it do
+    expect(response.status).to eq(200)
+    expect(something).to be_present?
+    expect(something.something).to be_blank?
+    expect(something).to eq(something)
+  end
 end
 "
     end
@@ -133,15 +133,18 @@ end
     let(:content) do
       '
       Then {
-        do_something
-
+        do_something!
+        response.status == 200
       }
 '
     end
 
     let(:expected) do
       '
-    expect(response.status).to eq(200)
+it {
+  do_something!
+  expect(response.status).to eq(200)
+}
 '
     end
 
