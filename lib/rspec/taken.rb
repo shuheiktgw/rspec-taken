@@ -20,8 +20,11 @@ module Rspec
 
         while loader(path).load_next_file
           begin
-            return succeed << @loader.current_file_name if generator.execute
-            raise FormatError, 'Something seems to be wrong with transpiling the file and stop formatting...'
+            if generator.execute
+              succeed << @loader.current_file_name
+            else
+              raise FormatError, 'Something seems to be wrong with transpiling the file and stop formatting...'
+            end
           rescue StandardError => e
             raise e if @development
             failed << report_failure(@loader.current_file_name, e.message)

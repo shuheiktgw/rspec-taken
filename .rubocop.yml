@@ -15,6 +15,9 @@ Lint/InterpolationCheck:
 Lint/Void:
  Enabled: false
 
+Style/GuardClause:
+ Enabled: false
+
 Style/NumericPredicate:
   Enabled: false
 
