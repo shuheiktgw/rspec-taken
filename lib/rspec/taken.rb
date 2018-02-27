@@ -8,6 +8,8 @@ require 'taken/railtie' if defined?(Rails)
 
 module Rspec
   module Taken
+    class FormatError < StandardError; end
+
     class << self
       # override is mainly used for testing
       def taken(path, development = true)
@@ -18,8 +20,8 @@ module Rspec
 
         while loader(path).load_next_file
           begin
-            generator.execute
-            succeed << @loader.current_file_name
+            return succeed << @loader.current_file_name if generator.execute
+            raise FormatError, 'Something seems to be wrong with transpiling the file and stop formatting...'
           rescue StandardError => e
             raise e if @development
             failed << report_failure(@loader.current_file_name, e.message)

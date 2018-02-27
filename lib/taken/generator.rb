@@ -22,7 +22,7 @@ module Taken
 
       Rufo::Command.run([writer.new_file_path])
     rescue SystemExit => e
-      puts "Format Completed. status :#{e.status}"
+      e.status != 1
     end
 
     def get_next
